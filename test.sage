@@ -20,6 +20,7 @@ for i in range(q):
     list_of_elements.append(result1)
     j=j+1
   else:
+    print("i: {} - result: {}".format(i, result1))
     print("not bijection")
   print("j is {}".format( j))
 
