@@ -12,6 +12,18 @@ load("additive_lhss.sage")
 load("utils.sage")
 load("hash.sage")
 
+list_of_elements = []
+j=0
+for i in range(q):
+  result1 = H(i, q) #bijection function
+  if result1 not in list_of_elements:
+    list_of_elements.append(result1)
+    j=j+1
+  else:
+    print("not bijection")
+  print("j is {}".format( j))
+
+
 security = 64
 l = security/2
 prime=random_prime(2^l-1, false, 2^(l-1))#Added here to generate a prime used for creating a field for the injective function of setup
