@@ -63,7 +63,9 @@ class LHSVHSSAdditive():
         s_i = random_element(q)
       
 
-        return sigma_temp #this is sigma_i of the paper
+        return sigma_temp #this is sigma_i of the pape
+
+
 
   #updated final_eval
     def final_eval(self,nr_servers):
