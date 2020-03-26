@@ -48,3 +48,8 @@ print("N: {}".format(N))
 lvhss = LHSVHSSAdditive()
 lvhss.setup(security,N,nr_clients)#test the function setup
 print ("Hash function output is:{}".format(H(3,prime)))
+
+
+
+def test():
+    return "test"

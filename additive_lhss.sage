@@ -128,5 +128,5 @@ class LHSVHSSAdditive():
             print (Color.B_Red,"Fail, oups", Color.B_Default)
             return 0
 
-
-
+def test():
+    return "test"
