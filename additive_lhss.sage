@@ -61,8 +61,13 @@ class LHSVHSSAdditive():
         """
         e = H(fid, q)#q is the prime that define the field
         s_i = random_element(q)
-      
-
+        right_hand_side=verification_key[2]^(s_i)*verification_key[4][i-1]*verification_key[3]^(x_i_R)
+        phi = (secret_key[0]-1)*(secret_key[1]-1)
+        e_N = e*verification_key[0]
+        inverse_e_N = inverse_mod(e_N, phi)#a^-1 mod phi
+        x=right_hand_side^inverse_e_N
+        sigma_temp=(e, s_i, fid, x)
+        
         return sigma_temp #this is sigma_i of the pape
 
 
@@ -73,7 +78,7 @@ class LHSVHSSAdditive():
         for j in range(1,nr_servers+1):
             finaleval=finaleval+int(self.partialeval[j])
         #print ("final eval is:",finaleval)
-        return finaleval #this is y in the paper which coirresponds to the sum of the secret inputs
+        return finaleval #this is y in the paper which corresponds to the sum of the secret inputs
 
 
     def final_proof(self, nr_servers, g):

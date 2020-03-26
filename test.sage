@@ -25,6 +25,18 @@ for i in range(q):
   print("j is {}".format( j))
 
 
+
+
+p = 11 
+q = 13 
+
+phi = (p-1)*(q-1)
+#we need to compute x such that x^a=b mod (pq)
+a=7
+b=17
+inv_a = inverse_mod(a, phi)#a^-1 mod phi
+x=(b^inv_a).mod((p*q))
+
 security = 64
 l = security/2
 prime=random_prime(2^l-1, false, 2^(l-1))#Added here to generate a prime used for creating a field for the injective function of setup
