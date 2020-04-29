@@ -12,21 +12,6 @@ load("additive_lhss.sage")
 load("utils.sage")
 load("hash.sage")
 
-list_of_elements = []
-j=0
-for i in range(q):
-  result1 = H(i, q) #bijection function
-  if result1 not in list_of_elements:
-    list_of_elements.append(result1)
-    j=j+1
-  else:
-    print("i: {} - result: {}".format(i, result1))
-    print("not bijection")
-  print("j is {}".format( j))
-
-
-
-
 p = 11 
 q = 13 
 
@@ -46,5 +31,10 @@ print("p: {} - q: {}".format(p,q))
 print("N: {}".format(N))
 
 lvhss = LHSVHSSAdditive()
-lvhss.setup(security,N,nr_clients)#test the function setup
-print ("Hash function output is:{}".format(H(3,prime)))
+secret_key, verification_key = lvhss.setup(security,N,nr_clients)#test the function setup
+print("secret_key: {}".format(secret_key))
+print("verification_key: {}".format(verification_key))
+
+
+
+
