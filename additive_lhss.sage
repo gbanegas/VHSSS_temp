@@ -89,18 +89,20 @@ class LHSVHSSAdditive():
 
         prod_partial_proofs=1
         for i in range(nr_clients+1):
-            sigma_temp = sigmas[i-1] //sigma_temp = (e, s_i, fid, x)
-            //=prod_partial_proofs*sigma_temp[3]
+            sigma_temp = sigmas[i-1] #sigma_temp = (e, s_i, fid, x)
+            prod_partial_proofs=prod_partial_proofs*sigma_temp[3]#this is the product of x_i_tildes of the paper, indices are always 1 so no need to add exponent
+        #this is to compute s_prime
         sum_s_i=0
         for i in range(nr_clients+1):
-            sigma_temp = sigmas[i-1] //sigma_temp = (e, s_i, fid, x)
+            sigma_temp = sigmas[i-1] #sigma_temp = (e, s_i, fid, x)
             sum_s_i=sum_s_i+sigma_temp[1]
-        e_N = sigmas[0][0]*verification_key[0] //e*N #sigmas[0][0] is basically e
+        e_N = sigmas[0][0]*verification_key[0] #e*N sigmas[0][0] is basically e
         s=(sum_s_i).(mod e_N)
         s_prime=(sum_s_i-s)/e_N
-        prod_hj_to_fj_pr=1
-        for i in range(nr_clients+1):
-            sigma_temp = sigmas[i-1] //sigma_temp = (e, s_i, fid, x)
+        #until here is to compute s_prime
+        #prod_hj_to_fj_pr=1
+        #for i in range(nr_clients+1):
+            #sigma_temp = sigmas[i-1] #sigma_temp = (e, s_i, fid, x)
             #prod_hj_to_fj_pr=prod_hj_to_fj_pr*(verification_key[4][i-1]^f_j_pr), we removed it because it is 0 in this case
         low_part = (verification_key[2]^s_prime)#*prod_hj_to_fj_pr
         x_tilda = (prod_partial_proofs/low_part).mod(verification_key[1])
@@ -111,7 +113,7 @@ class LHSVHSSAdditive():
       
     #updated verify
     def verify(self,verification_key, f, finalproof, y):
-        e_N = finalproof[0]*verification_key[0] //e*N #finalproof[0] is basically e
+        e_N = finalproof[0]*verification_key[0] #e*N #finalproof[0] is basically e
         x_tilde=finalproof[3]
         prod_hj = 1
         for j in range(0,n):

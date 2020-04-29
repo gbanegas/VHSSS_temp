@@ -19,12 +19,12 @@ load("utils.sage")
 load("hash.sage")
 
 list_of_elements = []
-j=_sage_const_0 
+j=0 
 for i in range(q):
   result1 = H(i, q) #bijection function
   if result1 not in list_of_elements:
     list_of_elements.append(result1)
-    j=j+_sage_const_1 
+    j=j+1 
   else:
     print("i: {} - result: {}".format(i, result1))
     print("not bijection")
@@ -32,7 +32,7 @@ for i in range(q):
 
 
 security = _sage_const_64 
-l = security/_sage_const_2 
+l = security/2 
 prime=random_prime(_sage_const_2 **l-_sage_const_1 , false, _sage_const_2 **(l-_sage_const_1 ))#Added here to generate a prime used for creating a field for the injective function of setup
 p,q = generate_safe_primes(security)
 N = p*q

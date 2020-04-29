@@ -39,7 +39,7 @@ x=(b^inv_a).mod((p*q))
 
 security = 64
 l = security/2
-prime=random_prime(2^l-1, false, 2^(l-1))#Added here to generate a prime used for creating a field for the injective function of setup
+prime=random_prime(2^l-1, false, 2^(l-1)) #Added here to generate a prime used for creating a field for the injective function of setup
 p,q = generate_safe_primes(security)
 N = p*q
 print("p: {} - q: {}".format(p,q))
@@ -48,8 +48,3 @@ print("N: {}".format(N))
 lvhss = LHSVHSSAdditive()
 lvhss.setup(security,N,nr_clients)#test the function setup
 print ("Hash function output is:{}".format(H(3,prime)))
-
-
-
-def test():
-    return "test"
