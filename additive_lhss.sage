@@ -81,7 +81,7 @@ class LHSVHSSAdditive():
         #print ("final eval is:",finaleval)
         return finaleval #this is y in the paper which corresponds to the sum of the secret inputs
 
-    #updated with some extra details to work
+    #updated final_proof
     #f_hat needs to be defined and f_hat=(1,...,1) and length is nr_clients
     #sigmas=(sigma_1,...,sigma_n) of the paper
     def final_proof(self, verification_key, sigmas, nr_clients):
@@ -101,32 +101,28 @@ class LHSVHSSAdditive():
         prod_hj_to_fj_pr=1
         for i in range(nr_clients+1):
             sigma_temp = sigmas[i-1] //sigma_temp = (e, s_i, fid, x)
-            prod_hj_to_fj_pr=prod_hj_to_fj_pr*(verification_key[4][i-1])#we haven't multiplied by f_j_pr yet
-        low_part = (verification_key[2]^s_prime)*prod_hj_to_fj_pr
+            #prod_hj_to_fj_pr=prod_hj_to_fj_pr*(verification_key[4][i-1]^f_j_pr), we removed it because it is 0 in this case
+        low_part = (verification_key[2]^s_prime)#*prod_hj_to_fj_pr
         x_tilda = (prod_partial_proofs/low_part).mod(verification_key[1])
         finalproof = (e, s, sigmas[0][2], x_tilda) #sigma_temp[2]=fid
         
         return finalproof #this is sigma in the paper
 
-    def verify(self,tau_is,nr_clients,sigma,y):
-        #PROD needs to be computed without the field and then reduced to the field
-        prod=1
-        for i in range(1,nr_clients+1):
-            prod=prod*tau_is[i]
-        print("prod: {}".format((prod)))
-        y_mod = FIELD(y)
-
-
-        hash_y = FIELD(g^((y)))
-        hash_y_mod = FIELD(g^y_mod)
-
-        print("hash_y: {}".format(hash_y))
-        if ((sigma==FIELD(hash_y)) and (FIELD(prod)==hash_y_mod)):#Georgia doesn't agree with me but it is same comparison
-            print (Color.B_Green,"Sum is correctly computed and equal to:",FIELD(y), Color.B_Default)
-            return 1
+      
+    #updated verify
+    def verify(self,verification_key, f, finalproof, y):
+        e_N = finalproof[0]*verification_key[0] //e*N #finalproof[0] is basically e
+        x_tilde=finalproof[3]
+        prod_hj = 1
+        for j in range(0,n):
+            prod_hj = prod_hj*verification_key[4][j]#product of h_js
+        right_part = (verification_key[2]^finalproof[1])*prod_hj*(verification_key[3]^y)
+        left_part=x_tilde^(e_N)
+        if left_part == right_part:
+            print("Yey!")
+            return y
         else:
-            print (Color.B_Red,"Fail, oups", Color.B_Default)
+            print("Nay :(")
             return 0
-
 def test():
     return "test"
