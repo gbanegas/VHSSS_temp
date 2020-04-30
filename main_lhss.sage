@@ -4,6 +4,9 @@ load("additive_lhss.sage")
 load("utils.sage")
 load("hash.sage")
 
+q = 3911
+FIELD = GF(q)
+
 lvhss = LHSVHSSAdditive()
 
 security = 64
