@@ -65,6 +65,7 @@ class LHSVHSSAdditive():
         right_hand_side=verification_key[2]^(s_i)*verification_key[4][i-1]*verification_key[3]^(x_i_R)
         phi = (secret_key[0]-1)*(secret_key[1]-1)
         e_N = e*verification_key[0]
+        print("e_N : {}, e: {}, verification_key: {}".format(e_N, e, verification_key[0]))
         inverse_e_N = inverse_mod(Integer(e_N), Integer(phi))#a^-1 mod phi
         x=right_hand_side^inverse_e_N
         sigma_temp=(e, s_i, fid, x)
