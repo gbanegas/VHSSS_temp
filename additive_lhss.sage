@@ -63,10 +63,10 @@ class LHSVHSSAdditive():
         x_i_R: secret input of the client i + randomness from the client i 
         """
         e = H(fid, q)#q is the prime that define the field
-        s_i = FIELD.random_element()
+        e_N = Integer(e)*Integer(verification_key[0])
+        s_i =random.getrandbits(2048).mod(e_N)
         right_hand_side=verification_key[2]^(s_i)*verification_key[4][i-1]*verification_key[3]^(x_i_R)
         phi =(secret_key[0]-1)*(secret_key[1]-1)
-        e_N = Integer(e)*Integer(verification_key[0])
         print("e_N : {}, e: {}, verification_key: {}".format(e_N, e, verification_key[0]))
         inverse_e_N = inverse_mod(Integer(e_N), Integer(phi))#a^-1 mod phi
         x=right_hand_side^inverse_e_N
