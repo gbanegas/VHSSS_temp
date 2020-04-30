@@ -17,7 +17,7 @@ print("N: {}".format(N))
 
 nr_clients = 4
 nr_servers = 3
-t=2
+t = 2
 secret_key, verification_key = lvhss.setup(security,N,nr_clients)
 
 client_1 = Client(1, [2], t, verification_key[2], lvhss )
