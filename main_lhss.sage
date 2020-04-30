@@ -36,9 +36,9 @@ print(shares_c_2)
 print(shares_c_3)
 print(shares_c_4)
 
-server_1 = Server(1, lhss)
-server_2 = Server(2, lhss)
-server_3 = Server(3, lhss)
+server_1 = Server(1, lvhss)
+server_2 = Server(2, lvhss)
+server_3 = Server(3, lvhss)
 
 server_1.set_share(1, shares_c_1[0])
 server_1.set_share(2, shares_c_2[0])
