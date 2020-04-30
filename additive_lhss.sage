@@ -127,6 +127,8 @@ class LHSVHSSAdditive():
             prod_hj = prod_hj*verification_key[4][j]#product of h_js
         right_part = (verification_key[2]^finalproof[1])*prod_hj*(verification_key[3]^y)
         left_part=x_tilde^(e_N)
+
+        print("right_part: {}  - left_part: {}".format(right_part, left_part))
         if left_part == right_part:
             print("Yey!")
             return y
