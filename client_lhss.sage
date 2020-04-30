@@ -12,5 +12,5 @@ class Client():
 
     def generate_shares(self, nr_servers):
         #lhss = LHSSAdditive() #Initialization of the class LHSSAdditive
-        shares, tau_i  = self.lhss.gen_secret_share_additive_with_linear_hom_sign( self.i, self.x_i, self.t, nr_servers, self.g)
+        shares = self.lhss.gen_secret_share_additive_with_linear_hom_sign( self.i, self.x_i, self.t, nr_servers, self.g)
         return shares
