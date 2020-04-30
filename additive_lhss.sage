@@ -100,7 +100,7 @@ class LHSVHSSAdditive():
         for i in range(nr_clients+1):
             sigma_temp = sigmas[i-1] #sigma_temp = (e, s_i, fid, x)
             sum_s_i=sum_s_i+sigma_temp[1]
-        e_N = sigmas[0][0]*verification_key[0] #e*N sigmas[0][0] is basically e
+        e_N = Integer(sigmas[0][0])*Integer(verification_key[0]) #e*N sigmas[0][0] is basically e
         
         s=(sum_s_i).mod(e_N)
         print("sum_s_i : {} , sigmas[0][0]: {}, verification_key[0]: {}, e_N: {}, s: {}".format(sum_s_i, sigmas[0][0], verification_key[0], e_N, s))
