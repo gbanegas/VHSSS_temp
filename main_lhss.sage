@@ -81,3 +81,6 @@ list_proofs = [partial_proof_1, partial_proof_2, partial_proof_3,partial_proof_4
 final_proof_test = lvhss.final_proof(verification_key, list_proofs, nr_clients)
 
 print("Final Proof: {}".format(final_proof_test))
+
+lvhss.verify(verification_key, final_proof_test, final_eval)
+
