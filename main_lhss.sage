@@ -56,9 +56,9 @@ server_3.set_share(3, shares_c_3[3])
 server_3.set_share(4, shares_c_4[3])
 
 
-partial_eval_1  = partial_eval(1, server_1.get_shares(), nr_clients)
-partial_eval_2  = partial_eval(2, server_2.get_shares(), nr_clients)
-partial_eval_3  = partial_eval(3, server_3.get_shares(), nr_clients)
+partial_eval_1  = lvhss.partial_eval(1, server_1.get_shares(), nr_clients)
+partial_eval_2  = lvhss.partial_eval(2, server_2.get_shares(), nr_clients)
+partial_eval_3  = lvhss.partial_eval(3, server_3.get_shares(), nr_clients)
 
 print("Partial eval server 1: {}".format(partial_eval_1))
 print("Partial eval server 2: {}".format(partial_eval_2))
