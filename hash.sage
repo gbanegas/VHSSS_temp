@@ -4,7 +4,7 @@ def H(element,prime):
     
     temp = g^element
     is_nr_prime = Integer(temp).is_prime()
-    while not is_nr_prime or temp == 2:
+    while not is_nr_prime or temp == 2 or temp == 0:
         temp = g^L.random_element()
         is_nr_prime = Integer(temp).is_prime()
         print ("temp is {} - and is_nr_prime {}".format(temp, is_nr_prime))
