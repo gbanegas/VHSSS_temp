@@ -123,7 +123,7 @@ class LHSVHSSAdditive():
         e_N = finalproof[0]*verification_key[0] #e*N #finalproof[0] is basically e
         x_tilde=finalproof[3]
         prod_hj = 1
-        for j in range(0,n):
+        for j in range(0,len(verification_key[4])):
             prod_hj = prod_hj*verification_key[4][j]#product of h_js
         right_part = (verification_key[2]^finalproof[1])*prod_hj*(verification_key[3]^y)
         left_part=x_tilde^(e_N)
