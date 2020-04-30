@@ -1,5 +1,5 @@
 load("client_lhss.sage")
-load("server.sage")
+load("server_lhss.sage")
 load("additive_lhss.sage")
 load("utils.sage")
 load("hash.sage")
@@ -35,3 +35,32 @@ print(shares_c_1)
 print(shares_c_2)
 print(shares_c_3)
 print(shares_c_4)
+
+server_1 = Server(1, lhss)
+server_2 = Server(2, lhss)
+server_3 = Server(3, lhss)
+
+server_1.set_share(1, shares_c_1[0])
+server_1.set_share(2, shares_c_2[0])
+server_1.set_share(3, shares_c_3[0])
+server_1.set_share(4, shares_c_4[0])
+
+server_2.set_share(1, shares_c_1[1])
+server_2.set_share(2, shares_c_2[1])
+server_2.set_share(3, shares_c_3[1])
+server_2.set_share(4, shares_c_4[1])
+
+server_3.set_share(1, shares_c_1[2])
+server_3.set_share(2, shares_c_2[2])
+server_3.set_share(3, shares_c_3[2])
+server_3.set_share(4, shares_c_4[2])
+
+
+partial_eval_1  = partial_eval(1, server_1.get_shares(), nr_clients)
+partial_eval_2  = partial_eval(2, server_2.get_shares(), nr_clients)
+partial_eval_3  = partial_eval(3, server_3.get_shares(), nr_clients)
+
+print("Partial eval server 1: {}".format(partial_eval_1))
+print("Partial eval server 2: {}".format(partial_eval_2))
+print("Partial eval server 3: {}".format(partial_eval_3))
+
