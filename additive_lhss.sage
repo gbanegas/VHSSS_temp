@@ -9,9 +9,9 @@ class LHSVHSSAdditive():
         pass
     #updated setup
     def setup(self, k_security, N,nr_clients):
-        self.p_hat_prime, self.q_hat_prime = generate_random_primes(k_security, N)
-        self.p_hat=2*self.p_hat_prime_+1#this is prime thanks to how generate_random_primes works
-        self.q_hat=2*self.q_hat_prime+1#this is prime thanks to how generate_random_primes works
+        p_hat_prime, q_hat_prime = generate_random_primes(k_security, N)
+        self.p_hat=2*p_hat_prime+1#this is prime thanks to how generate_random_primes works
+        self.q_hat=2*q_hat_prime+1#this is prime thanks to how generate_random_primes works
         self.n_hat = self.p_hat*self.q_hat
         secret_key = (self.p_hat, self.q_hat)
         g=random_Z_star(N)
