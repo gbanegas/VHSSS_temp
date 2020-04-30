@@ -62,7 +62,7 @@ class LHSVHSSAdditive():
         fid: Identifier of the dataset //to_check
         x_i_R: secret input of the client i + randomness from the client i 
         """
-        e = H(fid, q, verification_key[0])#q is the prime that define the field
+        e = H(fid, q)#q is the prime that define the field
         s_i = FIELD.random_element()
         right_hand_side=verification_key[2]^(s_i)*verification_key[4][i-1]*verification_key[3]^(x_i_R)
         phi =(secret_key[0]-1)*(secret_key[1]-1)
