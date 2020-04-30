@@ -65,7 +65,7 @@ class LHSVHSSAdditive():
         """
         e = H(fid, q)#q is the prime that define the field
         e_N = Integer(e)*Integer(verification_key[0])
-        s_i =random.getrandbits(2048).mod(e_N)#s_i need to be in Z_eN (not referred in the paper)
+        s_i =mod(random.getrandbits(2048), e_N)#s_i need to be in Z_eN (not referred in the paper)
         right_hand_side=verification_key[2]^(s_i)*verification_key[4][i-1]*verification_key[3]^(x_i_R)
         phi =(secret_key[0]-1)*(secret_key[1]-1)
         print("e_N : {}, e: {}, verification_key: {}".format(e_N, e, verification_key[0]))
