@@ -66,9 +66,9 @@ for client in clients: #generation shares and tau_i
 for server in servers:
     print("Server: {} -  Shares: {} ".format(server.j, server.shares))
     y_j = vahss.partial_eval(server.j, server.shares, nr_clients)
-    print(ANSI_Compatible.Color(65), "Partial Eval From Server {} = {}".format(server.j, y_j), ANSI_Compatible.END)
+    print( "Partial Eval From Server {} = {}".format(server.j, y_j)
     sigma_j = vahss.partial_proof(server.j, server.shares, g, nr_clients)
-    print(ANSI_Compatible.Color(50),"Partial Proof From Server {} = {}".format(server.j, sigma_j), ANSI_Compatible.END)
+    print("Partial Proof From Server {} = {}".format(server.j, sigma_j) )
 
 sigma = vahss.final_proof(nr_servers, g)
 print("sigma: {}".format(sigma))
