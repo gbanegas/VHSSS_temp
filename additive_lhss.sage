@@ -120,7 +120,7 @@ class LHSVHSSAdditive():
     #updated verify
     def verify(self,verification_key, finalproof, y):
         print("finalproof[0]: {}, verification_key[0] : {}".format(finalproof[0], verification_key[0]))
-        e_N = finalproof[0]*verification_key[0] #e*N #finalproof[0] is basically e
+        e_N = Integer(finalproof[0])*Integer(verification_key[0]) #e*N #finalproof[0] is basically e
         x_tilde=finalproof[3]
         prod_hj = 1
         for j in range(len(verification_key[4])):
