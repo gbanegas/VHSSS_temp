@@ -68,7 +68,7 @@ for server in servers:
     y_j = vahss.partial_eval(server.j, server.shares, nr_clients)
     print( "Partial Eval From Server {} = {}".format(server.j, y_j)
     sigma_j = vahss.partial_proof(server.j, server.shares, g, nr_clients)
-    print("Partial Proof From Server {} = {}".format(server.j, sigma_j) )
+    print(,"Partial Proof From Server {} = {}".format(server.j, sigma_j))
 
 sigma = vahss.final_proof(nr_servers, g)
 print("sigma: {}".format(sigma))
