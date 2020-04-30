@@ -3,9 +3,10 @@ def H(element,prime):
     g = L.multiplicative_generator()
     
     is_nr_prime = False
-    temp = 0
+    temp = g^element
+    is_nr_prime = temp.is_prime()
     while not is_nr_prime:
-        temp = g^element
+        temp = g^L.random_element()
         is_nr_prime = temp.is_prime()
         print ("temp is {} - and is_nr_prime {}".format(temp, is_nr_prime))
 
