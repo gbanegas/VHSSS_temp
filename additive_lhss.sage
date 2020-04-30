@@ -101,7 +101,9 @@ class LHSVHSSAdditive():
             sigma_temp = sigmas[i-1] #sigma_temp = (e, s_i, fid, x)
             sum_s_i=sum_s_i+sigma_temp[1]
         e_N = sigmas[0][0]*verification_key[0] #e*N sigmas[0][0] is basically e
+        
         s=(sum_s_i).mod(e_N)
+        print("sum_s_i : {} , e_N: {}, s: {}".format(sum_s_i, e_N, s))
         s_prime=Integer(sum_s_i-s)/Integer(e_N)
         #until here is to compute s_prime
         #prod_hj_to_fj_pr=1
