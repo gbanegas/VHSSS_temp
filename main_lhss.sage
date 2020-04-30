@@ -79,3 +79,5 @@ print("Partial proof c 4: {}".format(partial_proof_4))
 
 list_proofs = [partial_proof_1, partial_proof_2, partial_proof_3,partial_proof_4]
 final_proof_test = lvhss.final_proof(verification_key, list_proofs, nr_clients)
+
+print("Final Proof: {}".format(final_proof_test))
