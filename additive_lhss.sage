@@ -9,7 +9,9 @@ class LHSVHSSAdditive():
         pass
     #updated setup
     def setup(self, k_security, N,nr_clients):
-        self.p_hat, self.q_hat = generate_random_primes(k_security, N)
+        self.p_hat_prime, self.q_hat_prime = generate_random_primes(k_security, N)
+        self.p_hat=2*self.p_hat_prime_+1#this is prime thanks to how generate_random_primes works
+        self.q_hat=2*self.q_hat_prime+1#this is prime thanks to how generate_random_primes works
         self.n_hat = self.p_hat*self.q_hat
         secret_key = (self.p_hat, self.q_hat)
         g=random_Z_star(N)
@@ -63,7 +65,7 @@ class LHSVHSSAdditive():
         e = H(fid, q, verification_key[0])#q is the prime that define the field
         s_i = FIELD.random_element()
         right_hand_side=verification_key[2]^(s_i)*verification_key[4][i-1]*verification_key[3]^(x_i_R)
-        phi = (secret_key[0]-1)*(secret_key[1]-1)
+        phi =(secret_key[0]-1)*(secret_key[1]-1)
         e_N = Integer(e)*Integer(verification_key[0])
         print("e_N : {}, e: {}, verification_key: {}".format(e_N, e, verification_key[0]))
         inverse_e_N = inverse_mod(Integer(e_N), Integer(phi))#a^-1 mod phi
