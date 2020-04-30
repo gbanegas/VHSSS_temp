@@ -102,7 +102,7 @@ class LHSVHSSAdditive():
             sum_s_i=sum_s_i+sigma_temp[1]
         e_N = sigmas[0][0]*verification_key[0] #e*N sigmas[0][0] is basically e
         s=(sum_s_i).mod(e_N)
-        s_prime=(sum_s_i-s)/e_N
+        s_prime=Integer(sum_s_i-s)/Integer(e_N)
         #until here is to compute s_prime
         #prod_hj_to_fj_pr=1
         #for i in range(nr_clients+1):
