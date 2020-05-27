@@ -110,7 +110,8 @@ class LHSVHSSAdditive():
         #for i in range(nr_clients+1):
             #sigma_temp = sigmas[i-1] #sigma_temp = (e, s_i, fid, x)
             #prod_hj_to_fj_pr=prod_hj_to_fj_pr*(verification_key[4][i-1]^f_j_pr), we removed it because it is 0 in this case
-        low_part = (verification_key[2]^s_prime)#*prod_hj_to_fj_pr
+        #low_part = (verification_key[2]^s_prime)#*prod_hj_to_fj_pr
+        low_part=1
         x_tilda = (prod_partial_proofs/low_part).mod(verification_key[1])
         finalproof = (sigmas[0][0], s, sigmas[0][2], x_tilda) #sigma_temp[2]=fid
         
