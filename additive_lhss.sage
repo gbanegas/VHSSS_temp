@@ -143,7 +143,7 @@ class LHSVHSSAdditive():
         x_tilda= finalproof[3]
 
         g_power_s = g^s
-        g1_power_y = g1^14
+        g1_power_y = g1^y
 
         right_part = g_power_s*prod_hj*g1_power_y
 
