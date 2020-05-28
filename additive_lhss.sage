@@ -41,9 +41,9 @@ class LHSVHSSAdditive():
         """
         shares = {}
         polynomial_i = generate_random_polynomial(x_i, t)
-        print("Polynomial: ", polynomial_i)
+        #print("Polynomial: ", polynomial_i)
         evaluation_theta, lambda_ijs, shares  = generate_points(polynomial_i, nr_servers)
-        print("evaluation_theta: {},  lambda_ijs: {}, shares: {}".format(evaluation_theta, lambda_ijs, shares))
+        #print("evaluation_theta: {},  lambda_ijs: {}, shares: {}".format(evaluation_theta, lambda_ijs, shares))
         #shares = pre_computed_products
         return shares#, tau_i
 
@@ -78,7 +78,7 @@ class LHSVHSSAdditive():
 
         inverse_e_N = inverse_mod(Integer(e_N), Integer(phi))#a^-1 mod phi
         x = right_hand_side.powermod(inverse_e_N, n_hat)
-        print("n_hat = {} - x = {} - e_N = {}  - right_hand_side = {} - phi =  {} - g = {} - hi = {} - g1 = {} - si = {} - x_i_r = {} - g1_pow = {}".format(n_hat, x, e_N, right_hand_side, phi,g,hi,g1, s_i, x_i_R, g1_pow))
+        #print("n_hat = {} - x = {} - e_N = {}  - right_hand_side = {} - phi =  {} - g = {} - hi = {} - g1 = {} - si = {} - x_i_r = {} - g1_pow = {}".format(n_hat, x, e_N, right_hand_side, phi,g,hi,g1, s_i, x_i_R, g1_pow))
         sigma_temp=(e, s_i, fid, x)
         return sigma_temp #this is sigma_i of the pape
 
@@ -119,12 +119,12 @@ class LHSVHSSAdditive():
 
 
         s=(sum_s_i).mod(e_N)
-        print("sum_s_i : {} , s: {}".format(sum_s_i, s))
+        #print("sum_s_i : {} , s: {}".format(sum_s_i, s))
         tmp = sum_s_i-s;
 
         s_prime=R(tmp)/R(e_N)
 
-        print("tmp: {} - s_prime: {} ".format(tmp, s_prime))
+        #print("tmp: {} - s_prime: {} ".format(tmp, s_prime))
 
         low_part = R(g.powermod(s_prime, n_hat))
         #low_part=1
@@ -136,7 +136,7 @@ class LHSVHSSAdditive():
 
     #updated verify
     def verify(self,verification_key, finalproof, final_eval, q):
-        print("e: {}, N: {}".format(finalproof[0], verification_key[0]))
+        #print("e: {}, N: {}".format(finalproof[0], verification_key[0]))
         e_N = Integer(finalproof[0])*Integer(verification_key[0]) #e*N #finalproof[0] is basically e
         n_hat = Integer(verification_key[1])
         g = Integer(verification_key[2])
@@ -157,18 +157,16 @@ class LHSVHSSAdditive():
 
         right_part = (g_power_s*prod_hj*g1_power_y).mod(n_hat)
 
-        print("s: {} - g_power: {} - y: {} - g1_power_y:{}  - prod_hj: {} - right_part: {}".format(s, g_power_s, y_m,g1_power_y, prod_hj, right_part))
+        #print("s: {} - g_power: {} - y: {} - g1_power_y:{}  - prod_hj: {} - right_part: {}".format(s, g_power_s, y_m,g1_power_y, prod_hj, right_part))
 
         left_part=x_tilda.powermod(e_N, n_hat)
         #x_tilda^(e_N)
     #    print("x_tilda: {} - left_part: {}".format(x_tilda,left_part) )
 
-        print("right_part: {}  - left_part: {}".format(right_part, left_part))
+        #print("right_part: {}  - left_part: {}".format(right_part, left_part))
         if left_part == right_part:
             print("Yey!")
             return y_m
         else:
             print("Nay :(")
             return 0
-def test():
-    return "test"
