@@ -106,12 +106,14 @@ class LHSVHSSAdditive():
         sum_s_i=0
         for i in range(nr_clients+1):
             sigma_temp = sigmas[i-1] #sigma_temp = (e, s_i, fid, x)
-            sum_s_i=sum_s_i+sigma_temp[1]
+            sum_s_i=sum_s_i+Integer(sigma_temp[1])
         e_N = Integer(sigmas[0][0])*Integer(verification_key[0]) #e*N sigmas[0][0] is basically e
 
         s=(sum_s_i).mod(e_N)
-        print("sum_s_i : {} , sigmas[0][0]: {}, verification_key[0]: {}, e_N: {}, s: {}".format(sum_s_i, sigmas[0][0], verification_key[0], e_N, s))
-        s_prime=Integer(sum_s_i-s)/Integer(e_N)
+        print("sum_s_i : {} , s: {}".format(sum_s_i, s))
+        tmp = (sum_s_i-s);
+        print("tmp: {}".format(tmp))
+        s_prime=tmp/e_N
         #until here is to compute s_prime
         #prod_hj_to_fj_pr=1
         #for i in range(nr_clients+1):
