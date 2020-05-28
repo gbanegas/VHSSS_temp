@@ -114,6 +114,7 @@ class LHSVHSSAdditive():
         tmp = Integer(sum_s_i-s);
         
         s_prime=tmp/e_N
+        
         print("tmp: {} - s_prime: {} ".format(tmp, s_prime))
         #until here is to compute s_prime
         #prod_hj_to_fj_pr=1
@@ -130,14 +131,26 @@ class LHSVHSSAdditive():
 
     #updated verify
     def verify(self,verification_key, finalproof, y):
-        print("finalproof[0]: {}, verification_key[0] : {}".format(finalproof[0], verification_key[0]))
+        print("e: {}, N: {}".format(finalproof[0], verification_key[0]))
         e_N = Integer(finalproof[0])*Integer(verification_key[0]) #e*N #finalproof[0] is basically e
-        x_tilde=finalproof[3]
+        
         prod_hj = 1
         for j in range(len(verification_key[4])):
             prod_hj = prod_hj*verification_key[4][j]#product of h_js
-        right_part = (verification_key[2]^finalproof[1])*prod_hj*(verification_key[3]^y)
-        left_part=x_tilde^(e_N)
+        g = verification_key[2]
+        g1 = verification_key[3]
+        s = finalproof[1]
+        x_tilda= finalproof[3]
+
+        g_power_s = g^s
+        g1_power_y = g1^y
+
+        right_part = g_power_s*prod_hj*g1_power_y
+
+        print("s: {} - g_power: {} - y: {}  - prod_hj: {} - right_part: {}".format(s, g_power_s, y, prod_hj, right_part))
+
+        left_part=x_tilda^(e_N)
+        print("x_tilda: {} - left_part: {}".format(x_tilda,left_part) )
 
         print("right_part: {}  - left_part: {}".format(right_part, left_part))
         if left_part == right_part:
