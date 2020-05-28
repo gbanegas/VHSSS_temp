@@ -111,9 +111,10 @@ class LHSVHSSAdditive():
 
         s=(sum_s_i).mod(e_N)
         print("sum_s_i : {} , s: {}".format(sum_s_i, s))
-        tmp = (sum_s_i-s);
-        print("tmp: {}".format(tmp))
+        tmp = Integer(sum_s_i-s);
+        
         s_prime=tmp/e_N
+        print("tmp: {} - s_prime: {} ".format(tmp, s_prime))
         #until here is to compute s_prime
         #prod_hj_to_fj_pr=1
         #for i in range(nr_clients+1):
