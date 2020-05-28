@@ -15,11 +15,11 @@ class LHSVHSSAdditive():
         self.q_hat=2*q_hat_prime+1#this is prime thanks to how generate_random_primes works
         self.n_hat = self.p_hat*self.q_hat
         secret_key = (self.p_hat, self.q_hat)
-        g=random_Z_star(n_hat)
-        g_1=random_Z_star(n_hat)
+        g=random_Z_star(self.n_hat)
+        g_1=random_Z_star(self.n_hat)
         h=[]#list denoted by []
         for i in range (1,nr_clients+1):
-            h.append(random_Z_star(n_hat))
+            h.append(random_Z_star(self.n_hat))
         verification_key = (N,self.n_hat,g,g_1,h)
         print ("secret key: {}".format(secret_key))
         print ("verification key: {}".format(verification_key))
