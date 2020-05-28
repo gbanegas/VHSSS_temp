@@ -54,6 +54,9 @@ server_3.set_share(1, shares_c_1[3])
 server_3.set_share(2, shares_c_2[3])
 server_3.set_share(3, shares_c_3[3])
 server_3.set_share(4, shares_c_4[3])
+print("shares s1: {}".format(server_1.get_shares()))
+print("shares s2: {}".format(server_2.get_shares()))
+print("shares s3: {}".format(server_3.get_shares()))
 
 
 partial_eval_1  = lvhss.partial_eval(1, server_1.get_shares(), nr_clients)
@@ -66,13 +69,13 @@ print("Partial eval server 3: {}".format(partial_eval_3))
 
 final_eval = lvhss.final_eval(nr_servers)
 
-partial_proof_1 = lvhss.partial_proof(secret_key, verification_key, 1, 2+1, 1)
-partial_proof_2 = lvhss.partial_proof(secret_key, verification_key, 1, 3+1, 2)
-partial_proof_3 = lvhss.partial_proof(secret_key, verification_key, 1, 4+1, 3)
+partial_proof_1 = lvhss.partial_proof(secret_key, verification_key, 1, 2, 1)
+partial_proof_2 = lvhss.partial_proof(secret_key, verification_key, 1, 3, 2)
+partial_proof_3 = lvhss.partial_proof(secret_key, verification_key, 1, 4, 3)
 #R_i = ceil(3/(q-1))*(q-1)-3
 phi = (secret_key[0]-1)*(secret_key[1]-1)
 R_i = ceil(3/(phi-1))*(phi-1)-3
-partial_proof_4 = lvhss.partial_proof(secret_key, verification_key, 1, 5+R_i, 4)
+partial_proof_4 = lvhss.partial_proof(secret_key, verification_key, 1, 5, 4)
 
 print("Partial proof c 1: {}".format(partial_proof_1))
 print("Partial proof c 2: {}".format(partial_proof_2))
@@ -84,5 +87,4 @@ final_proof_test = lvhss.final_proof(verification_key, list_proofs, nr_clients)
 
 print("Final Proof: {}".format(final_proof_test))
 
-lvhss.verify(verification_key, final_proof_test, final_eval)
-
+lvhss.verify(verification_key, final_proof_test, final_eval, q)

@@ -60,7 +60,6 @@ def generate_points(polynomial_i, nr_servers):
     evaluation_theta = {}
     for j in range(1,nr_servers+1):
         evaluation_theta[j] = polynomial_i(j)
-        #dictionary[j] = evaluation_theta
 
     #Computing Lagrange Coeffs
     lambda_ijs = {}
