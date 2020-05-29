@@ -153,7 +153,7 @@ class LHSVHSSAdditive():
 
         g_power_s = g.powermod(s, n_hat)
         g1_power_y = g1.powermod(y_m, n_hat);
-        #g1^y_m
+        
 
         right_part = (g_power_s*prod_hj*g1_power_y).mod(n_hat)
 
