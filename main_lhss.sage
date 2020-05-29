@@ -69,9 +69,9 @@ print("Partial eval server 3: {}".format(partial_eval_3))
 
 final_eval = lvhss.final_eval(nr_servers)
 
-partial_proof_1 = lvhss.partial_proof(secret_key, verification_key, 1, 2+1, 1)
-partial_proof_2 = lvhss.partial_proof(secret_key, verification_key, 1, 3+1, 2)
-partial_proof_3 = lvhss.partial_proof(secret_key, verification_key, 1, 4+1, 3)
+partial_proof_1 = lvhss.partial_proof(secret_key, verification_key, 3, 2+1, 1)
+partial_proof_2 = lvhss.partial_proof(secret_key, verification_key, 3, 3+1, 2)
+partial_proof_3 = lvhss.partial_proof(secret_key, verification_key, 3, 4+1, 3)
 #R_i = ceil(3/(q-1))*(q-1)-3
 phi = (secret_key[0]-1)*(secret_key[1]-1)
 R_i = ceil(3/(phi))*(phi)-3
