@@ -62,7 +62,7 @@ class LHSVHSSAdditive():
         fid: Identifier of the dataset //to_check
         x_i_R: secret input of the client i + randomness from the client i
         """
-        e = H(fid, q)#q is the prime that define the field
+        e = H_1(fid, q)#q is the prime that define the field
         e_N = Integer(e)*Integer(verification_key[0])
         s_i =mod(random.getrandbits(2048), e_N)#s_i need to be in Z_eN (not referred in the paper)
         n_hat = Integer(verification_key[1])
@@ -98,7 +98,7 @@ class LHSVHSSAdditive():
     def final_proof(self, verification_key, sigmas, nr_clients):
         f_hat = [1]*nr_clients
         fid = sigmas[0][2]
-        e = H(fid, q)#q is the prime that define the field
+        e = H_1(fid, q)#q is the prime that define the field
 
         e_N = Integer(e)*Integer(verification_key[0])
 
