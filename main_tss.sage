@@ -84,3 +84,5 @@ print("H_is: {}".format(H_is))
 partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, threshold,nr_clients)
 
 print("partial_proofs = {}".format(partial_proofs))
+
+print("It works until now!!!!!!!!!!!!!")

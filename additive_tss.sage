@@ -85,9 +85,12 @@ class  VHSS_TSS():
             self.partialproof[i] = self.__partial_proof_i(omegas[i], H_is[i], A_is[i], i, N, threshold)
         return self.partialproof
 
-    def final_eval(self):
-        #TODO: all method
-        pass
+    def final_eval(self,nr_servers):
+        finaleval=0
+        for j in range(1,nr_servers+1):
+            finaleval=finaleval+Integer(self.partialeval[j])
+        return finaleval #this is y in the paper which coirresponds to the sum of the secret inputs
+  
 
     def final_proof(self):
         #TODO: all method
