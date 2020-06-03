@@ -13,7 +13,7 @@ class  VHSS_TSS():
         lower_bound=binomial(nr_clients, threshold)
         e = random.randint(lower_bound,N_prime)
         print("e: {}".format(e))
-        d = inverse_mod(e, phi_N)
+        d = inverse_mod(e, N_prime)
         pk = e
         sk = d
         return pk, sk
