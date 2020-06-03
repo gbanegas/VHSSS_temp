@@ -11,6 +11,8 @@ p = (2*p+1)
 q = (2*q+1)
 
 
+
+
 print("p: {}  \n q: {}".format(p,q))
 print("(p-1)/2: {}  \n (q-1)/2: {}".format((p-1)/2,(q-1)/2))
 vhss = VHSS_TSS()
@@ -20,3 +22,9 @@ public_key, private_key = vhss.setup(k_security, p, q, nr_clients, threshold)
 
 print("pk: {} \n sk: {}".format(public_key, private_key))
 
+m = 11
+n = p*q
+c = m.powermod(pk, n)
+print("c = {}".format(c))
+m_prime = c.powermod(sk, n)
+print("m_prime = {}".format(m_prime))
