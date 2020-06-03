@@ -71,7 +71,7 @@ class  VHSS_TSS():
         sigma_i={}
         for j in range(1,nr_servers+1):
             tmp = H_i^(2*C_iS_adjugate[j-1][0]*shared_key_i[j])
-            print("tmp: {} - type: {}".format(tmp, type(tmp)))
+            print("tmp: {} - type: {} - N: {}".format(tmp, type(tmp), N))
             sigma_i[j]=(tmp).mod(N)
         return sigma_i  #this is the partial proof that the coalition of the servers produce for each client i 
       
