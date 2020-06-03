@@ -71,6 +71,7 @@ class  VHSS_TSS():
         sigma_i={}
         print("C_adjugate: {} ".format(C_iS_adjugate))
         for j in range(1,nr_servers+1):
+            print("j: {} ".format(j))
             tmp = H_i^(2*C_iS_adjugate[j-1][0]*shared_key_i[j])
             print("tmp: {} - type: {} - N: {}".format(tmp, type(tmp), N))
             sigma_i[j]=(tmp).mod(N)
