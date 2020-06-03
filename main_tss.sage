@@ -86,3 +86,7 @@ partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, threshold,nr_clients)
 print("partial_proofs = {}".format(partial_proofs))
 
 print("It works until now!!!!!!!!!!!!!")
+
+final_proof_test = vhss.final_proof( public_keys, H_is, A_is, partial_proofs, threshold, N)
+
+print("final_proof: {}".format(final_proof_test))

@@ -107,11 +107,15 @@ class  VHSS_TSS():
 
 
     def final_proof(self, public_keys, H_is, A_is, sigmas, threshold, N):
-        sigmas_
-        for i in range(1, nr_clients):
-            sigma_i_bar = self.__final_proof_i(public_keys[i], H_is[i], sigmas[i], A_iS[i], N, threshold)
-        #TODO: all method
-        pass
+        final_proof = {}
+        for i in range(1, nr_clients+1):
+            final_proof[i] = self.__final_proof_i(public_keys[i], H_is[i], sigmas[i], A_iS[i], N, threshold)
+
+        final_p = 1;
+        for i in range(1, nr_clients+1):
+            final_p = final_p * (final_proof[i].powermod(public_keys[i], N))
+        return final_p    
+    
 
     def verify(self):
         #TODO: all method
