@@ -53,7 +53,7 @@ class  VHSS_TSS():
         H_i = FIELD(g^(exponent)) #this is the equivalent of \tau
 
         
-        return shares, shared_key, A_i, H_i
+        return shares, shared_key_i, A_i, H_i
     
     
 
