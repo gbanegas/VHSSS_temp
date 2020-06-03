@@ -37,3 +37,11 @@ print("c = {}".format(c))
 m_prime = c.powermod(private_key, n)
 print("m_prime = {}".format(m_prime))
 #--------
+
+x_0 = [1]
+shares, shared_key, A_i, H_i  = vhss.gen_secret_share_additive_with_threshold_ss(1, x_0, t, private_key, 3, nr_servers, threshold, g)
+
+print("shares: {}".format(shares))
+print("shared_key: {}".format(shared_key))
+print("A_i: {}".format(A_i))
+print("H_i: {}".format(H_i))
