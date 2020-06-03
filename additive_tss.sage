@@ -109,7 +109,7 @@ class  VHSS_TSS():
     def final_proof(self, public_keys, H_is, A_is, sigmas, threshold, N):
         final_proof = {}
         for i in range(1, nr_clients+1):
-            final_proof[i] = self.__final_proof_i(public_keys[i], H_is[i], sigmas[i], A_iS[i], N, threshold)
+            final_proof[i] = self.__final_proof_i(public_keys[i], H_is[i], sigmas[i], A_is[i], N, threshold)
 
         final_p = 1;
         for i in range(1, nr_clients+1):
