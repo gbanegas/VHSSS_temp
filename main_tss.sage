@@ -81,6 +81,6 @@ print("shared_key: {}".format(omegas))
 print("A_is: {}".format(A_is))
 print("H_is: {}".format(H_is))
 
-partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, nr_servers, threshold,nr_clients)
+partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, threshold,nr_clients)
 
 print("partial_proofs = {}".format(partial_proofs))
