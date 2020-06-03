@@ -24,7 +24,7 @@ print("pk: {} \n sk: {}".format(public_key, private_key))
 
 m = 11
 n = p*q
-c = m.powermod(pk, n)
+c = m.powermod(public_key, n)
 print("c = {}".format(c))
-m_prime = c.powermod(sk, n)
+m_prime = c.powermod(private_key, n)
 print("m_prime = {}".format(m_prime))
