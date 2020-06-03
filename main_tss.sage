@@ -16,6 +16,7 @@ k_security = 64 #just to test
 p, q = generate_safe_primes(k_security)
 p = (2*p+1)
 q = (2*q+1)
+N = p*q
 
 
 
