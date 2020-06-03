@@ -98,8 +98,8 @@ class  VHSS_TSS():
             bar_sigma_i = bar_sigma_i*sigma_i[j]
         bar_sigma_i=(bar_sigma_i).mod(N)
         A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
-        delta_A_is = A_iS.determinant()
-        tmp = 2*delta_A_is
+        delta_A_iS = A_iS.determinant()
+        tmp = 2*delta_A_iS
         _ , alpha, beta = xgcd(tmp, public_key_i)
         final_sigma_i=(bar_sigma_i^alpha)*(H_i^beta)
         final_sigma_i=(final_sigma_i).mod(N)
@@ -113,7 +113,7 @@ class  VHSS_TSS():
 
         final_p = 1;
         for i in range(1, nr_clients+1):
-            final_p = final_p * (final_proof[i].powermod(public_keys[i], N))
+            final_p = final_p * (Integer(final_proof[i]).powermod(public_keys[i], N))
         return final_p    
     
 
