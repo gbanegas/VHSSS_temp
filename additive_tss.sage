@@ -102,7 +102,8 @@ class  VHSS_TSS():
         tmp = 2*delta_A_iS
         _ , alpha, beta = xgcd(tmp, public_key_i)
         final_sigma_i=(bar_sigma_i^alpha)*(H_i^beta)
-        final_sigma_i=(final_sigma_i).mod(N)
+        tmp=Integer(final_sigma_i)
+        final_sigma_i=(tmp).mod(N)
         return final_sigma_i
 
 
