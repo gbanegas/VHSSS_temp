@@ -95,6 +95,8 @@ print("A_is: {}".format(A_is))
 print("H_is: {}".format(H_is))
 
 
+print("servers: {}".format(servers))
+
 partial_eval1 = vhss.partial_eval(1, servers[1], nr_clients)
 partial_eval2 = vhss.partial_eval(2, servers[2], nr_clients)
 partial_eval3 = vhss.partial_eval(3, servers[3], nr_clients)
