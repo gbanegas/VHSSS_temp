@@ -7,8 +7,8 @@ python-versions = "*"
 version = "0.0.0"
 
 [metadata]
-content-hash = "f5642698ccb07d7c04d4d25e79b944e440c4239bc1a7bec2c005e1f10a5ecd7d"
-python-versions = "^3.8"
+content-hash = "d39998cee28e31a8840e4c514cea64c6a7cb3ce8026bc419d8ff39bfbbe341a4"
+python-versions = "^3.7"
 
 [metadata.hashes]
 sage = ["2719c4ebf49b7ab242d90bb511aa47d4e31fdcd715518796654e81ddfca946fd"]

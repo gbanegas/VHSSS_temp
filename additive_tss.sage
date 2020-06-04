@@ -120,6 +120,14 @@ class  VHSS_TSS():
         return final_p    
     
 
-    def verify(self):
-        #TODO: all method
-        pass
+    def verify(self, nr_clients, H_is, final_p, finaleval):
+        prod=1
+        for i in range(1,nr_clients+1):
+            prod=prod*H_is[i]
+        H_y = g^finaleval
+        print("prod = {} == {}  ^  H_y = {} == {}".format(prod, final_p, H_y, prod))
+        if (H_y==prod) and (prod==final_p):
+            print("yeahhh")       
+            return 1
+        else:
+            return 0

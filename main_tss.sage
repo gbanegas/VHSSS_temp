@@ -57,6 +57,19 @@ shares4, shared_key4, A_4, H_4  = vhss.gen_secret_share_additive_with_threshold_
 
 shares5, shared_key5, A_5, H_5  = vhss.gen_secret_share_additive_with_threshold_ss(5, [3], t, private_keys[5], 3, nr_servers, threshold, g)
 
+#below we create lists with what each server has
+servers = {}
+for j in range(1, nr_servers+1):
+    server_share = {}
+    server_share[1] = shares1[j]
+    server_share[2] = shares2[j]
+    server_share[3] = shares3[j]
+    server_share[4] = shares4[j]
+    server_share[5] = shares5[j]
+    servers[j] = server_share
+        
+      
+
 omegas = {}
 H_is = {}
 A_is = {}
@@ -81,7 +94,19 @@ print("shared_key: {}".format(omegas))
 print("A_is: {}".format(A_is))
 print("H_is: {}".format(H_is))
 
+
+partial_eval1 = vhss.partial_eval(1, servers[1], nr_clients)
+partial_eval2 = vhss.partial_eval(2, servers[2], nr_clients)
+partial_eval3 = vhss.partial_eval(3, servers[3], nr_clients)
+partial_eval4 = vhss.partial_eval(4, servers[4], nr_clients)
+partial_eval5 = vhss.partial_eval(5, servers[5], nr_clients)
+partial_eval6 = vhss.partial_eval(6, servers[6], nr_clients)
+
+final_eval = vhss.final_eval(nr_servers)
+
 partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, threshold,nr_clients)
+
+
 
 print("partial_proofs = {}".format(partial_proofs))
 
@@ -90,3 +115,6 @@ print("It works until now!!!!!!!!!!!!!")
 final_proof_test = vhss.final_proof( public_keys, H_is, A_is, partial_proofs, threshold, N)
 
 print("final_proof: {}".format(final_proof_test))
+
+result_verify = vhss.verify(nr_clients, H_is, final_proof_test, final_eval)
+print (result_verify)
