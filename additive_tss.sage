@@ -118,8 +118,12 @@ class  VHSS_TSS():
         final_p = 1;
         for i in range(1, nr_clients+1):
             print("final_proof[{}] = {}".format(i, final_proof[i]))
-            final_p = final_p * (final_proof[i].powermod(public_keys[i],N))
-        final_p = final_p.mod(N)
+            #final_p = final_p * (final_proof[i].powermod(public_keys[i],N))
+            tmp = FIELD(final_proof[i])
+            tmp=(tmp^public_keys[i])
+            final_p = final_p * tmp
+        #final_p = final_p.mod(N)
+        final_p = FIELD(final_p)
         return final_p    
     
 
