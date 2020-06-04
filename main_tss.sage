@@ -117,4 +117,4 @@ final_proof_test = vhss.final_proof( public_keys, H_is, A_is, partial_proofs, th
 print("final_proof: {}".format(final_proof_test))
 
 result_verify = vhss.verify(nr_clients, H_is, final_proof_test, final_eval)
-print (result_verify)
+print ("result of the verify function is:", result_verify)
