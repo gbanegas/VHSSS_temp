@@ -20,7 +20,7 @@ class  VHSS_TSS():
         sk = d
         return pk, sk
 
-    def gen_secret_share_additive_with_threshold_ss(self, i, x_i, t, d_i, R_i, nr_servers, threshold, N, g):
+    def gen_secret_share_additive_with_threshold_ss(self, i, x_i, t, d_i, R_i, nr_servers, threshold, g):
         """
         i: index of the client
         x_i: secret input of the client i
@@ -37,10 +37,10 @@ class  VHSS_TSS():
         print("evaluation_theta: {},  lambda_ijs: {}, pre_computed_shares: {}".format(evaluation_theta, lambda_ijs, pre_computed_products))
         shares = pre_computed_products #These are the shares of x_i 
  
-        A_i = random_matrix(Integers(N), nr_servers, threshold, rank=threshold)
+        A_i = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
 
-        vec_d = random_vector(Integers(N), threshold)
-        vec_d[0] = d_i #because d=(d_i,r_2,..,r_\hat(t))
+        vec_d = random_vector(FIELD, threshold)
+        vec_d[0] = FIELD(d_i) #because d=(d_i,r_2,..,r_\hat(t))
 
         omega = A_i*vec_d #this gives us a vector omega=(shared_key_1,...,shared_key_m)
         shared_key_i = {}
