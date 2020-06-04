@@ -20,7 +20,7 @@ class  VHSS_TSS():
         sk = d
         return pk, sk
 
-    def gen_secret_share_additive_with_threshold_ss(self, i, x_i, t, d_i, R_i, nr_servers, threshold, g):
+    def gen_secret_share_additive_with_threshold_ss(self, i, x_i, t, d_i, R_i, nr_servers, threshold,N, g):
         """
         i: index of the client
         x_i: secret input of the client i
