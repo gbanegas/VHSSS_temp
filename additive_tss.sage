@@ -59,6 +59,7 @@ class  VHSS_TSS():
 
     def partial_eval(self, j, shares_from_clients, nr_clients):
         self.partial_eval[j] = 0
+        print("shares_from_clients: {}".format(shares_from_clients))
         for i in range(1,nr_clients+1):
             print("shares_from_the_clients[i] : {}".format(shares_from_the_clients[i]))
             self.partialeval[j]=self.partialeval[j]+Integer(shares_from_the_clients[i])

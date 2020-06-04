@@ -57,6 +57,13 @@ shares4, shared_key4, A_4, H_4  = vhss.gen_secret_share_additive_with_threshold_
 
 shares5, shared_key5, A_5, H_5  = vhss.gen_secret_share_additive_with_threshold_ss(5, [3], t, private_keys[5], 3, nr_servers, threshold, g)
 
+
+print ("shares 1: {}".format(shares1))
+print ("shares 2: {}".format(shares2))
+print ("shares 3: {}".format(shares3))
+print ("shares 4: {}".format(shares4))
+
+
 #below we create lists with what each server has
 servers = {}
 for j in range(1, nr_servers+1):
