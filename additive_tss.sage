@@ -63,7 +63,7 @@ class  VHSS_TSS():
         # print("shares_from_clients: {}".format(shares_from_clients))
         for i in range(1,nr_clients+1):
             #print("shares_from_the_clients[i] : {}".format(shares_from_the_clients[i]))
-            self.partialeval[j]=self.partialeval[j]+Integer(shares_from_clients[i])
+            self.partialeval[j]=self.partialeval[j]+shares_from_clients[i]
         
         return self.partialeval[j] #this is y_j of the paper
         
@@ -91,7 +91,7 @@ class  VHSS_TSS():
     def final_eval(self,nr_servers):
         finaleval=0
         for j in range(1,nr_servers+1):
-            finaleval=finaleval+Integer(self.partialeval[j])
+            finaleval=finaleval+self.partialeval[j]
         return finaleval #this is y in the paper which corresponds to the sum of the secret inputs
         
   
