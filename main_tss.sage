@@ -3,8 +3,8 @@ load("utils.sage")
 
 #test
 
-q = 3911
-FIELD = GF(q)
+f = 3911
+FIELD = GF(f)
 
 t = 4
 g = FIELD(3)
