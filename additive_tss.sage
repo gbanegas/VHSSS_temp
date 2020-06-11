@@ -121,7 +121,7 @@ class  VHSS_TSS():
             #final_p = final_p * (final_proof[i].powermod(public_keys[i],N))
             tmp = FIELD(final_proof[i])
             tmp=(tmp^public_keys[i])
-            final_p = final_p * tmp
+            final_p = (final_p * tmp).mod(N)
         #final_p = final_p.mod(N)
         final_p = FIELD(final_p)
         return final_p    
