@@ -118,7 +118,12 @@ class  VHSS_TSS():
         delta_A_iS = A_iS.determinant()
         tmp = 2*delta_A_iS
         _ , alpha, beta = xgcd(tmp, public_key_i)
-        final_sigma_i=(bar_sigma_i^alpha)*(H_i^beta)
+
+        tmp_1 = bar_sigma_i.powermod(alpha, N)
+
+        tmp_2 = H_i.powermod(beta, N)
+
+        final_sigma_i=(tmp_1)*(tmp_2)
         tmp=Integer(final_sigma_i)
         final_sigma_i=(tmp).mod(N)
         return final_sigma_i
