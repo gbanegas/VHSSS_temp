@@ -88,7 +88,8 @@ class  VHSS_TSS():
         print("C_adjugate: {} ".format(C_iS_adjugate))
         for j in range(1,threshold+1):
             print("j: {} ".format(j))
-            tmp = Integer(H_i^(2*C_iS_adjugate[j-1][0]*shared_key_i[j]))
+            expoent = 2*C_iS_adjugate[j-1][0]*shared_key_i[j]
+            tmp = Integer(H_i).powermod(expoent, N)
             print("tmp: {} - type: {} - N: {}".format(tmp, type(tmp), N))
 
             sigma_i[j]=(tmp).mod(N)
