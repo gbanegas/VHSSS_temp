@@ -46,7 +46,7 @@ class  VHSS_TSS():
         vec_d_tmp = random_vector(FIELD, threshold)
         l = [0]*threshold
         for i in range(0,threshold):
-            vec_d[i] = Integer(vec_d_tmp[i])
+            l[i] = Integer(vec_d_tmp[i])
         l[0] = d_i #because d=(d_i,r_2,..,r_\hat(t))
         vec_d = vector(l)
 
