@@ -121,7 +121,7 @@ class  VHSS_TSS():
 
         tmp_1 = bar_sigma_i.powermod(alpha, N)
 
-        tmp_2 = H_i.powermod(beta, N)
+        tmp_2 = Integer(H_i).powermod(beta, N)
 
         final_sigma_i=(tmp_1)*(tmp_2)
         tmp=Integer(final_sigma_i)
