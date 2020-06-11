@@ -44,10 +44,11 @@ class  VHSS_TSS():
                 A_i[i,j] = Integer(A_i_tmp[i][j])
 
         vec_d_tmp = random_vector(FIELD, threshold)
-        vec_d = [0]*threshold
+        l = [0]*threshold
         for i in range(0,threshold):
             vec_d[i] = Integer(vec_d_tmp[i])
-        vec_d[0] = d_i #because d=(d_i,r_2,..,r_\hat(t))
+        l[0] = d_i #because d=(d_i,r_2,..,r_\hat(t))
+        vec_d = vector(l)
 
         print("A_i: {} ".format(A_i))
         print("vec: {}".format(vec_d))
