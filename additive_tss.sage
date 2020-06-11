@@ -118,7 +118,7 @@ class  VHSS_TSS():
         delta_A_iS = A_iS.determinant()
       
         tmp = 2*delta_A_iS
-        _ ,alpha,beta = xgcd(tmp, public_key_i)
+        _ ,alpha,beta = xgcd(public_key_i, tmp)
 
         test=tmp*alpha+beta*public_key_i
         
