@@ -14,6 +14,8 @@ class  VHSS_TSS():
         N_prime = 2*q_prime*p_prime#this is just used by us to compute e.
         lower_bound=binomial(nr_clients, threshold)
         e = random.randint(lower_bound,N_prime)
+        while e.gcd(N_prime) <> 1:
+              e = random.randint(lower_bound,N_prime)
         print("e: {}".format(e))
         d = inverse_mod(e, N_prime)
         pk = e
