@@ -11,7 +11,7 @@ class  VHSS_TSS():
         p_prime=(p-1)/2
         q_prime=(q-1)/2
         phi_N=(p-1)*(q-1)#(p-1)(q-1)=2p'*2q'=4p'q'in the paper it is p'*q' instead of 2*p'*q'
-        N_prime = q_prime*p_prime#this is just used by us to compute e.
+        N_prime = 2*q_prime*p_prime#this is just used by us to compute e.
         lower_bound=binomial(nr_clients, threshold)
         e = random.randint(lower_bound,N_prime)
         print("e: {}".format(e))
