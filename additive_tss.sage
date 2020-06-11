@@ -118,12 +118,12 @@ class  VHSS_TSS():
         delta_A_iS = A_iS.determinant()
       
         tmp = 2*delta_A_iS
-        _ ,alpha,beta = xgcd(public_key_i, tmp)
+        lala ,alpha,beta = xgcd(tmp, public_key_i)
 
         test=tmp*alpha+beta*public_key_i
         
         print("deltaA_iS = {} - 2*deltaA_iS =  {} - alpha = {} - beta = {},e_i: {}".format(delta_A_iS, tmp, alpha, beta, public_key_i) )
-        print("test : {}".format(test))
+        print("test : {}- lala:{}".format(test,lala))
 
         
         
