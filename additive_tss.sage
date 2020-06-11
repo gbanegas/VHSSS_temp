@@ -37,9 +37,9 @@ class  VHSS_TSS():
         print("evaluation_theta: {},  lambda_ijs: {}, pre_computed_shares: {}".format(evaluation_theta, lambda_ijs, pre_computed_products))
         shares = pre_computed_products #These are the shares of x_i 
  
-        A_i = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
+        A_i = random_matrix(Integer, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
 
-        vec_d = random_vector(FIELD, threshold)
+        vec_d = random_vector(Integer, threshold)
         vec_d[0] = d_i #because d=(d_i,r_2,..,r_\hat(t))
 
         omega = Integer(A_i)*Integer(vec_d) #this gives us a vector omega=(shared_key_1,...,shared_key_m)
