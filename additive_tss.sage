@@ -41,7 +41,7 @@ class  VHSS_TSS():
         A_i = matrix(nr_servers, threshold)
         for i in range(0,nr_servers):
             for j in range(0,threshold):
-                A_i[i][j] = Integer(A_i_tmp[i][j])
+                A_i[i,j] = Integer(A_i_tmp[i][j])
 
         vec_d_tmp = random_vector(FIELD, threshold)
         vec_d = vector(threshold)
