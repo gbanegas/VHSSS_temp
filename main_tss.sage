@@ -92,6 +92,7 @@ H_is[2] = H_2
 H_is[3] = H_3
 H_is[4] = H_4
 H_is[5] = H_5
+
 A_is[1] = A_1
 A_is[2] = A_2
 A_is[3] = A_3
@@ -123,6 +124,7 @@ partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, threshold,nr_clients)
 print("partial_proofs = {}".format(partial_proofs))
 
 print("It works until now!!!!!!!!!!!!!")
+print("H_is: {}".format(H_is))
 
 final_proof_test = vhss.final_proof( public_keys, H_is, A_is, partial_proofs, threshold, N)
 
