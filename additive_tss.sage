@@ -40,9 +40,12 @@ class  VHSS_TSS():
         A_i = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
 
         vec_d = random_vector(FIELD, threshold)
-        vec_d[0] = FIELD(d_i) #because d=(d_i,r_2,..,r_\hat(t))
+        vec_d[0] = d_i #because d=(d_i,r_2,..,r_\hat(t))
 
-        omega = A_i*vec_d #this gives us a vector omega=(shared_key_1,...,shared_key_m)
+        omega = Integer(A_i)*Integer(vec_d) #this gives us a vector omega=(shared_key_1,...,shared_key_m)
+        print("A_i: {} ".format(A_i))
+        print("vec: {}".format(vec_d))
+        print("omega is : {}".format(omega))
         shared_key_i = {}
         for j in range(1, nr_servers+1):
             shared_key_i[j]=omega[j-1]
