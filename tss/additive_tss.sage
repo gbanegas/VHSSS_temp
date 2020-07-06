@@ -119,7 +119,7 @@ class  VHSS_TSS():
         lala ,alpha,beta = xgcd(tmp, public_key_i)
         result_tmp = sigma_bar.powermod(alpha,N) 
         print("result_tmp 1 : {}".format(result_tmp))
-        result_tmp = result_tmp * H_i^beta
+        result_tmp = result_tmp * Integer(H_i).powermod(beta, N)
         print("result_tmp 2 : {}".format(result_tmp))
         result_tmp=(result_tmp).mod(N)
         print("result_tmp 3 : {}".format(result_tmp))
