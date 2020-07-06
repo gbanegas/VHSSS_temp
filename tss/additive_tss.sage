@@ -116,7 +116,7 @@ class  VHSS_TSS():
         tmp = 2*delta_A_iS
         lala ,alpha,beta = xgcd(tmp, public_key_i)
         result_tmp = sigma_bar.powermod(alpha,N) 
-        result_tmp = result_tmp * H_i.powermod(beta,N)
+        result_tmp = result_tmp * H_i^beta
         result_tmp=(result_tmp).mod(N)
         print("result_tmp : {} - {}".format(result_tmp, sigma_i))
         
