@@ -50,7 +50,7 @@ class  VHSS_TSS():
             gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
             # print("gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
         
-        print ("A_iS : {}".format(A_is))
+        print ("A_iS : {}".format(A_iS))
 
         A_i = matrix(nr_servers, threshold) #Create a zero matrix
         for i in range(0,nr_servers):
