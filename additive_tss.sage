@@ -45,7 +45,7 @@ class  VHSS_TSS():
         delta_A_i = A_i.determinant()#this is to compute the det of A_i
         tmp = 2*delta_A_i
         gcd_pk_i_delta_Ai = gcd(tmp, public_key_i)
-        while( gcd_pk_i_delta_Ai != ):#we make sure they are coprime before we go on. 
+        while( gcd_pk_i_delta_Ai != 1):#we make sure they are coprime before we go on. 
             A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
             A_i = matrix(nr_servers, threshold)
             delta_A_i = A_i.determinant()#this is to compute the det of A_i
