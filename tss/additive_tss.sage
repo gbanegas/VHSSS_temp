@@ -56,6 +56,7 @@ class  VHSS_TSS():
         for i in range(0,nr_servers):
             for j in range(0,threshold):
                 A_i[i,j] = Integer(A_i_tmp[i][j])
+        A_i= A_i[0:threshold, 0:threshold]
         print ("A_i : {}".format(A_i))
         vec_d_tmp = random_vector(FIELD, threshold)
         l = [0]*threshold
