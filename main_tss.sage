@@ -49,13 +49,13 @@ print("m_prime = {}".format(m_prime))
 #--------
 
 
-shares1, shared_key1, A_1, H_1  = vhss.gen_secret_share_additive_with_threshold_ss(1, [1], t, private_keys[1], 1, nr_servers, threshold, N, g)
+shares1, shared_key1, A_1, H_1  = vhss.gen_secret_share_additive_with_threshold_ss(1, [1], t, private_keys[1], 1, nr_servers, threshold, N, g, public_key[1])
 
-shares2, shared_key2, A_2, H_2  = vhss.gen_secret_share_additive_with_threshold_ss(2, [2], t, private_keys[2], 1, nr_servers, threshold, N,g)
+shares2, shared_key2, A_2, H_2  = vhss.gen_secret_share_additive_with_threshold_ss(2, [2], t, private_keys[2], 1, nr_servers, threshold, N,g, public_key[2])
 
-shares3, shared_key3, A_3, H_3  = vhss.gen_secret_share_additive_with_threshold_ss(3, [3], t, private_keys[3], 1, nr_servers, threshold,N, g)
+shares3, shared_key3, A_3, H_3  = vhss.gen_secret_share_additive_with_threshold_ss(3, [3], t, private_keys[3], 1, nr_servers, threshold,N, g, public_key[3])
 
-shares4, shared_key4, A_4, H_4  = vhss.gen_secret_share_additive_with_threshold_ss(4, [5], t, private_keys[4], 1, nr_servers, threshold, N,g)
+shares4, shared_key4, A_4, H_4  = vhss.gen_secret_share_additive_with_threshold_ss(4, [5], t, private_keys[4], 1, nr_servers, threshold, N,g, public_key[4])
 
 
 #phi = (p-1)*(q-1)
