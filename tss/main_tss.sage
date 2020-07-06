@@ -122,7 +122,7 @@ partial_eval6 = vhss.partial_eval(6, servers[6], nr_clients)
 final_eval = vhss.final_eval(nr_servers)
 print("final_eval : {}".format(final_eval))
 
-partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, threshold,nr_clients)
+partial_proofs = vhss.partial_proof(omegas, H_is, A_is, N, threshold,nr_clients, public_keys)
 
 
 

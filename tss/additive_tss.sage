@@ -98,7 +98,7 @@ class  VHSS_TSS():
         return self.partialeval[j] #this is y_j of the paper
 
 
-    def __partial_proof_i(self, shared_key_i, H_i, A_i, N,threshold):#shared_key_i is the list of the m shares of the secret key of each client i
+    def __partial_proof_i(self, shared_key_i, H_i, A_i, N,threshold, public_key_i):#shared_key_i is the list of the m shares of the secret key of each client i
         A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         C_iS_adjugate = A_iS.adjugate()
         sigma_i={}
@@ -107,12 +107,25 @@ class  VHSS_TSS():
             tmp = Integer(H_i).powermod(exponent, N)
 
             sigma_i[j]=(tmp).mod(N)
+        ######### this section is for testing
+        #we have added public_key_i as input which is not normally necessary
+        sigma_bar = 1
+        for sigma in sigma_i.values():
+            sigma_bar = sigma_bar*sigma
+        delta_A_iS = A_iS.determinant()
+        tmp = 2*delta_A_iS
+        lala ,alpha,beta = xgcd(tmp, public_key_i)
+        result_tmp = sigma_bar^alpha * H_i^beta
+        result_tmp=(result_tmp).mod(N)
+        print("result_tmp : {} - {}".format(result_tmp, sigma_i))
+        
+        ######### this section is for testing
         return sigma_i  #this is the partial proof that the coalition of the servers produce for each client i
 
 
-    def partial_proof(self, omegas, H_is, A_is, N, threshold,nr_clients):
+    def partial_proof(self, omegas, H_is, A_is, N, threshold,nr_clients, public_keys):
         for i in range(1, nr_clients+1):
-            self.partialproof[i] = self.__partial_proof_i(omegas[i], H_is[i], A_is[i], N, threshold)
+            self.partialproof[i] = self.__partial_proof_i(omegas[i], H_is[i], A_is[i], N, threshold, public_keys[i])
         return self.partialproof
 
     def final_eval(self,nr_servers):
