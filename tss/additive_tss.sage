@@ -41,7 +41,7 @@ class  VHSS_TSS():
         A_i = matrix(nr_servers, threshold) #Create a zero matrix
         for i in range(0,nr_servers):
               for j in range(0,threshold):
-                  A_i[i,j] = Integer(A_i_tmp[i][j])
+                  A_i[i,j] = Integer(A_i_tmp[i][j])          
         A_iS = A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
         tmp = 2*delta_A_iS
@@ -103,8 +103,8 @@ class  VHSS_TSS():
         C_iS_adjugate = A_iS.adjugate()
         sigma_i={}
         for j in range(1,threshold+1):
-            expoent = 2*C_iS_adjugate[j-1][0]*shared_key_i[j]
-            tmp = Integer(H_i).powermod(expoent, N)
+            exponent = 2*C_iS_adjugate[j-1][0]*shared_key_i[j]
+            tmp = Integer(H_i).powermod(exponent, N)
 
             sigma_i[j]=(tmp).mod(N)
         return sigma_i  #this is the partial proof that the coalition of the servers produce for each client i
