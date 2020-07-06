@@ -42,7 +42,7 @@ class  VHSS_TSS():
         for i in range(0,nr_servers):
               for j in range(0,threshold):
                   A_i[i,j] = Integer(A_i_tmp[i][j])
-            A_iS = A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
+        A_iS = A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
         tmp = 2*delta_A_iS
         gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
