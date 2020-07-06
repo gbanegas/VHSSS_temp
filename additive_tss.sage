@@ -22,7 +22,7 @@ class  VHSS_TSS():
         sk = d
         return pk, sk
 
-    def gen_secret_share_additive_with_threshold_ss(self, i, x_i, t, d_i, R_i, nr_servers, threshold,N, g, public_key_i):
+    def gen_secret_share_additive_with_threshold_ss(self, i, x_i, t, d_i, R_i, nr_servers, threshold, N, g, public_key_i):
     #we add the e_i as input to be able to check that (public_key_i, det(A_i))=1.
         """
         i: index of the client
@@ -42,15 +42,17 @@ class  VHSS_TSS():
  
         A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
         A_i = matrix(nr_servers, threshold)
-        delta_A_i = A_i.determinant()#this is to compute the det of A_i
-        tmp = 2*delta_A_i
-        gcd_pk_i_delta_Ai = gcd(tmp, public_key_i)
+        A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
+        delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
+        tmp = 2*delta_A_iS
+        gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
         while( gcd_pk_i_delta_Ai != 1):#we make sure they are coprime before we go on. 
             A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
             A_i = matrix(nr_servers, threshold)
-            delta_A_i = A_i.determinant()#this is to compute the det of A_i
-            tmp = 2*delta_A_i
-            gcd_pk_i_delta_Ai = gcd(tmp, public_key_i)
+            A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
+            delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
+            tmp = 2*delta_A_iS
+            gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
 
         for i in range(0,nr_servers):
             for j in range(0,threshold):
