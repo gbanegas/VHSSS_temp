@@ -41,15 +41,15 @@ class  VHSS_TSS():
         shares = pre_computed_products #These are the shares of x_i 
  
         A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
-        A_i = matrix(nr_servers, threshold)
-        A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
+        
+        A_iS= A_i_tmp[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
         tmp = 2*delta_A_iS
         gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
         while( gcd_pk_i_delta_AiS != 1):#we make sure they are coprime before we go on. 
             A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
-            A_i = matrix(nr_servers, threshold)
-            A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
+            #A_i = matrix(nr_servers, threshold)
+            A_iS= A_i_tmp[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
             delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
             tmp = 2*delta_A_iS
             gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
