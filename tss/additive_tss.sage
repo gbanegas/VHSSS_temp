@@ -48,15 +48,16 @@ class  VHSS_TSS():
             delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
             tmp = 2*delta_A_iS
             gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
-            # print("gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
         
+        
+        print("gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
         print ("A_iS : {}".format(A_iS))
 
         A_i = matrix(nr_servers, threshold) #Create a zero matrix
         for i in range(0,nr_servers):
             for j in range(0,threshold):
                 A_i[i,j] = Integer(A_i_tmp[i][j])
-        A_i= A_i[0:threshold, 0:threshold]
+        #A_i= A_i[0:threshold, 0:threshold]
         print ("A_i : {}".format(A_i))
         vec_d_tmp = random_vector(FIELD, threshold)
         l = [0]*threshold
