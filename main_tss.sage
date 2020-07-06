@@ -62,7 +62,7 @@ shares4, shared_key4, A_4, H_4  = vhss.gen_secret_share_additive_with_threshold_
 #R_i = ceil(R_is/(q-1))*(q-1)-R_is
 R_i = ceil(4/(f-1))*(f-1)-4 #here we are reducing modulo the field since all the values are in the FIELD. 
 
-shares5, shared_key5, A_5, H_5  = vhss.gen_secret_share_additive_with_threshold_ss(5, [3], t, private_keys[5], R_i, nr_servers, threshold, N,g,, public_keys[4])
+shares5, shared_key5, A_5, H_5  = vhss.gen_secret_share_additive_with_threshold_ss(5, [3], t, private_keys[5], R_i, nr_servers, threshold, N,g,public_keys[5])
 
 
 print ("shares 1: {}".format(shares1))
