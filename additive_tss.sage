@@ -52,8 +52,9 @@ class  VHSS_TSS():
             delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
             tmp = 2*delta_A_iS
             gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
-            print("gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
+            # print("gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
 
+        print("LAST" gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
         for i in range(0,nr_servers):
             for j in range(0,threshold):
                 A_i[i,j] = Integer(A_i_tmp[i][j])
