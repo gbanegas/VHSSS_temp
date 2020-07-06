@@ -14,7 +14,7 @@ threshold = 3
 nr_servers= 4+2
 g = FIELD(3)
 k_security = 64 #just to test
-#p,q need to be safe primes 
+#p,q need to be safe primes
 p, q = generate_safe_primes(k_security)
 p = (2*p+1)
 q = (2*q+1)
@@ -60,7 +60,7 @@ shares4, shared_key4, A_4, H_4  = vhss.gen_secret_share_additive_with_threshold_
 
 #phi = (p-1)*(q-1)
 #R_i = ceil(R_is/(q-1))*(q-1)-R_is
-R_i = ceil(4/(f-1))*(f-1)-4 #here we are reducing modulo the field since all the values are in the FIELD. 
+R_i = ceil(4/(f-1))*(f-1)-4 #here we are reducing modulo the field since all the values are in the FIELD.
 
 shares5, shared_key5, A_5, H_5  = vhss.gen_secret_share_additive_with_threshold_ss(5, [3], t, private_keys[5], R_i, nr_servers, threshold, N,g,public_keys[5])
 
@@ -81,8 +81,8 @@ for j in range(1, nr_servers+1):
     server_share[4] = shares4[j]
     server_share[5] = shares5[j]
     servers[j] = server_share
-        
-      
+
+
 
 omegas = {}
 H_is = {}
@@ -105,9 +105,9 @@ A_is[4] = A_4
 A_is[5] = A_5
 
 #print("shares: {}".format(shares))
-print("shared_key: {}".format(omegas))
-print("A_is: {}".format(A_is))
-print("H_is: {}".format(H_is))
+#print("shared_key: {}".format(omegas))
+#print("A_is: {}".format(A_is))
+#print("H_is: {}".format(H_is))
 
 
 print("servers: {}".format(servers[1]))

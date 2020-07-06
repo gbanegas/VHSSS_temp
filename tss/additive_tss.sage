@@ -16,7 +16,6 @@ class  VHSS_TSS():
         e = Integer(random.randint(lower_bound,N_prime))
         while gcd(e, N_prime) != 1:
               e = random.randint(lower_bound,N_prime)
-        print("e: {}".format(e))
         d = inverse_mod(e, N_prime)
         pk = e
         sk = d
@@ -35,18 +34,16 @@ class  VHSS_TSS():
         shares = {}
         H_i = None
         polynomial_i = generate_random_polynomial(x_i, t)
-        print("Polynomial: ", polynomial_i)
         evaluation_theta, lambda_ijs, pre_computed_products  = generate_points(polynomial_i, nr_servers)
-        print("evaluation_theta: {},  lambda_ijs: {}, pre_computed_shares: {}".format(evaluation_theta, lambda_ijs, pre_computed_products))
-        shares = pre_computed_products #These are the shares of x_i 
- 
+        shares = pre_computed_products #These are the shares of x_i
+
         A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
         A_i = matrix(nr_servers, threshold)
         A_iS= A_i_tmp[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
         tmp = 2*delta_A_iS
         gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
-        while( gcd_pk_i_delta_AiS != 1):#we make sure they are coprime before we go on. 
+        while( gcd_pk_i_delta_AiS != 1):#we make sure they are coprime before we go on.
             A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
             A_iS= A_i_tmp[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
             delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
@@ -54,7 +51,6 @@ class  VHSS_TSS():
             gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
             # print("gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
 
-        print("LAST gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
         for i in range(0,nr_servers):
             for j in range(0,threshold):
                 A_i[i,j] = Integer(A_i_tmp[i][j])
@@ -66,25 +62,20 @@ class  VHSS_TSS():
         l[0] = d_i #because d=(d_i,r_2,..,r_\hat(t))
         vec_d = vector(l)
 
-        print("A_i: {} ".format(A_i))
-        print("vec: {}".format(vec_d))
-
         omega = A_i*vec_d #this gives us a vector omega=(shared_key_1,...,shared_key_m)
-        
-        print("omega is : {}".format(omega))
+
         shared_key_i = {}
         for j in range(1, nr_servers+1):
             shared_key_i[j]=omega[j-1]
         #now shared_key is a list of the shares of the d_i that will be given to the m servers
 
         exponent = x_i[0] + int(R_i)
-        print("exponent: {}".format(exponent))
         H_i = FIELD(g^(exponent)) #this is the equivalent of \tau
 
-        
+
         return shares, shared_key_i, A_i, H_i
-    
-    
+
+
 
     def partial_eval(self, j, shares_from_clients, nr_clients):
         #print("shares_from_clients: {}".format(shares_from_clients))
@@ -93,25 +84,21 @@ class  VHSS_TSS():
         for i in range(1,nr_clients+1):
             #print("shares_from_the_clients[i] : {}".format(shares_from_the_clients[i]))
             self.partialeval[j]=self.partialeval[j]+shares_from_clients[i]
-        
-        return self.partialeval[j] #this is y_j of the paper
-        
 
-    def __partial_proof_i(self, shared_key_i, H_i, A_i, N,threshold):#shared_key_i is the list of the m shares of the secret key of each client i 
+        return self.partialeval[j] #this is y_j of the paper
+
+
+    def __partial_proof_i(self, shared_key_i, H_i, A_i, N,threshold):#shared_key_i is the list of the m shares of the secret key of each client i
         A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         C_iS_adjugate = A_iS.adjugate()
         sigma_i={}
-        print("C_adjugate: {} ".format(C_iS_adjugate))
         for j in range(1,threshold+1):
-            print("j: {} ".format(j))
             expoent = 2*C_iS_adjugate[j-1][0]*shared_key_i[j]
             tmp = Integer(H_i).powermod(expoent, N)
-            print("tmp: {} - type: {} - N: {}".format(tmp, type(tmp), N))
 
             sigma_i[j]=(tmp).mod(N)
-        print("sigma_i: {}".format(sigma_i))
-        return sigma_i  #this is the partial proof that the coalition of the servers produce for each client i 
-      
+        return sigma_i  #this is the partial proof that the coalition of the servers produce for each client i
+
 
     def partial_proof(self, omegas, H_is, A_is, N, threshold,nr_clients):
         for i in range(1, nr_clients+1):
@@ -123,8 +110,8 @@ class  VHSS_TSS():
         for j in range(1,nr_servers+1):
             finaleval=finaleval+self.partialeval[j]
         return finaleval #this is y in the paper which corresponds to the sum of the secret inputs
-        
-  
+
+
     def __final_proof_i(self, public_key_i, H_i, sigma_i, A_i, N,threshold):
         bar_sigma_i = 1
         for j in range(1,threshold+1):
@@ -132,23 +119,18 @@ class  VHSS_TSS():
         bar_sigma_i=(bar_sigma_i).mod(N)
         A_iS= A_i[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         delta_A_iS = A_iS.determinant()
-      
+
         tmp = 2*delta_A_iS
         lala ,alpha,beta = xgcd(tmp, public_key_i)
 
         test=tmp*alpha+beta*public_key_i
-        
-        print("deltaA_iS = {} - 2*deltaA_iS =  {} - alpha = {} - beta = {},e_i: {}".format(delta_A_iS, tmp, alpha, beta, public_key_i) )
-        print("test : {}- lala:{}".format(test,lala))
 
-        
-        
         tmp_1 = bar_sigma_i.powermod(alpha, N)
 
         tmp_2 = Integer(H_i).powermod(beta, N)
 
         final_sigma_i=(tmp_1)*(tmp_2)
-      
+
         tmp=Integer(final_sigma_i)
         final_sigma_i=(tmp).mod(N)
         return final_sigma_i
@@ -161,7 +143,6 @@ class  VHSS_TSS():
 
         final_p = 1;
         for i in range(1, nr_clients+1):
-            print("final_proof[{}] = {}".format(i, final_proof[i]))
             #final_p = final_p * (final_proof[i].powermod(public_keys[i],N))
             tmp = Integer(final_proof[i])
             tmp = tmp.powermod(public_keys[i], N)
@@ -169,8 +150,8 @@ class  VHSS_TSS():
             final_p = (final_p * tmp).mod(N)
         #final_p = final_p.mod(N)
         final_p = FIELD(final_p)
-        return final_p    
-    
+        return final_p
+
 
     def verify(self, nr_clients, H_is, final_p, finaleval):
         prod=1
@@ -179,7 +160,7 @@ class  VHSS_TSS():
         H_y = g^finaleval
         print("prod = {} == {}  ^  H_y = {} == {}".format(prod, final_p, H_y, prod))
         if (H_y==prod) and (prod==final_p):
-            print("yeahhh")       
+            print("yeahhh")
             return 1
         else:
             return 0
