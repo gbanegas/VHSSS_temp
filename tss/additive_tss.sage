@@ -37,8 +37,7 @@ class  VHSS_TSS():
         evaluation_theta, lambda_ijs, pre_computed_products  = generate_points(polynomial_i, nr_servers)
         shares = pre_computed_products #These are the shares of x_i
 
-        A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold)
-        A_i = matrix(nr_servers, threshold)
+        A_i_tmp = random_matrix(FIELD, nr_servers, threshold, algorithm='echelonizable', rank=threshold) #create a random matrix with full rank
         A_iS= A_i_tmp[0:threshold, 0:threshold] #this is to create the \hat(t)x\hat(t) submatrix of A_i
         delta_A_iS = A_iS.determinant()#this is to compute the det of A_iS
         tmp = 2*delta_A_iS
@@ -50,11 +49,14 @@ class  VHSS_TSS():
             tmp = 2*delta_A_iS
             gcd_pk_i_delta_AiS = gcd(tmp, public_key_i)
             # print("gcd_pk_i_delta_AiS {}".format(gcd_pk_i_delta_AiS))
+        
+        print ("A_iS : {}".format(A_is))
 
+        A_i = matrix(nr_servers, threshold) #Create a zero matrix
         for i in range(0,nr_servers):
             for j in range(0,threshold):
                 A_i[i,j] = Integer(A_i_tmp[i][j])
-
+        print ("A_i : {}".format(A_i))
         vec_d_tmp = random_vector(FIELD, threshold)
         l = [0]*threshold
         for i in range(0,threshold):
