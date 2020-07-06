@@ -126,8 +126,10 @@ class  VHSS_TSS():
 
         tmp = 2*delta_A_iS
         lala ,alpha,beta = xgcd(tmp, public_key_i)
-
+        
         test=tmp*alpha+beta*public_key_i
+        print("test: {} - lala: {} -  alpha : {} -  beta: {}".format(test,lala,alpha, beta))
+
 
         tmp_1 = bar_sigma_i.powermod(alpha, N)
 
