@@ -3,6 +3,7 @@ import numpy as np
 
 from arithmetic.modp import *
 from arithmetic.utils import *
+from arithmetic.euclidean import *
 
 from shamir_secre_sharing.shamir_secret import *
 from shamir_secre_sharing.wrapper import *
@@ -19,6 +20,14 @@ def generate_random_matrix(rows, columns, rank):
 def generate_random_vector(t):
    vec = np.random.randint(low=0,high=3911,size=t )
    return vec
+
+def adjugate(matrix, rows, columns, prime):
+    m = np.linalg.det(matrix)
+    c = [[i for i in range(rows)] for j in range(columns)]
+    for i in range(rows):
+        for j in range(columns):
+            c[i][j] = ((-1) * (i + j) * m) % prime
+    return c
 
 
 
@@ -59,7 +68,7 @@ class VHSS_TSS(object):
         """
         H_i = None
         print("--- Starting Generation Shares --- ")
-        shares = Protocol.generate_input_shamir_secret(x_i[0], t, nr_servers)
+        shares = Protocol.generate_input_shamir_secret(x_i[0], t, nr_servers, self.modQ.p)
         print("share: {} ".format(shares))
         A_i_tmp = generate_random_matrix(nr_servers, threshold, threshold)
         print("A_i_tmp : {}".format(A_i_tmp))
@@ -100,4 +109,106 @@ class VHSS_TSS(object):
         print("H_I : {}".format(H_i))
        
         return shares, shared_key_i, A_i, H_i
+
+    def partial_eval(self, j, shares_from_client, nr_clients):
+        self.partialeval[j] = 0
+        for i in range(1, nr_clients + 1):
+            # print("shares_from_the_clients[i] : {}".format(shares_from_the_clients[i]))
+            self.partialeval[j] = self.partialeval[j] + shares_from_client[i]
+        return self.partialeval[j]
+
+    def __partial_proof_i(self, shared_key_i, H_i, A_i, N, threshold, public_key_i):  # shared_key_i is the list of the m shares of the secret key of each client i
+        A_iS = A_i[0:threshold, 0:threshold]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
+        C_iS_adjugate =adjugate(A_iS, threshold, threshold, 3911)
+        sigma_i = {}
+        for j in range(1, threshold + 1):
+            exponent = int(2 * C_iS_adjugate[j - 1][0] * shared_key_i[j])
+
+            tmp = pow(H_i, exponent, N)
+            sigma_i[j] = tmp % N
+        ######### this section is for testing
+        # we have added public_key_i as input which is not normally necessary
+        sigma_bar = 1
+        for sigma in sigma_i.values():
+            sigma_bar = sigma_bar * sigma
+        delta_A_iS = det(A_iS) #A_iS.determinant()
+        tmp = 2 * delta_A_iS
+
+        print("sigma_bar: {} - delta_A_iS: {}".format(sigma_bar, delta_A_iS))
+        lala, alpha, beta = extendedEuclideanAlgorithm(int(tmp), int(public_key_i))# xgcd(tmp, public_key_i)
+        result_tmp = pow(sigma_bar, alpha, N) #sigma_bar.powermod(alpha, N)
+        print("result_tmp 1 : {}".format(result_tmp))
+        result_tmp = result_tmp * (pow(H_i, beta, N))#Integer(H_i).powermod(beta, N)
+        print("result_tmp 2 : {}".format(result_tmp))
+        result_tmp = result_tmp % N
+        print("result_tmp 3 : {}".format(result_tmp))
+        print("result_tmp : {} - {}".format(result_tmp, sigma_i))
+
+        ######### this section is for testing
+        return sigma_i
+
+    def partial_proof(self, omegas, H_is, A_is, N, threshold, nr_clients, public_keys):
+        for i in range(1, nr_clients + 1):
+            self.partialproof[i] = self.__partial_proof_i(omegas[i], H_is[i], A_is[i], N, threshold, public_keys[i])
+        return self.partialproof
+
+    def final_eval(self, nr_servers):
+        finaleval = 0
+        for j in range(1, nr_servers + 1):
+            finaleval = finaleval + self.partialeval[j]
+        return finaleval
+
+    def __final_proof_i(self, public_key_i, H_i, sigma_i, A_i, N, threshold):
+        bar_sigma_i = 1
+        for j in range(1, threshold + 1):
+            bar_sigma_i = bar_sigma_i * sigma_i[j]
+        bar_sigma_i = bar_sigma_i % N
+        A_iS = A_i[0:threshold, 0:threshold]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
+        delta_A_iS = det(A_iS)
+
+        tmp = 2 * delta_A_iS
+        lala, alpha, beta = extendedEuclideanAlgorithm(int(tmp), int(public_key_i))
+
+        test = tmp * alpha + beta * public_key_i
+        print("test: {} - lala: {} -  alpha : {} -  beta: {}".format(test, lala, alpha, beta))
+
+        tmp_1 = pow(bar_sigma_i, alpha, N) #bar_sigma_i.powermod(alpha, N)
+
+        tmp_2 = pow(H_i, beta, N) #Integer(H_i).powermod(beta, N)
+
+        final_sigma_i = (tmp_1) * (tmp_2)
+
+        #tmp = Integer(final_sigma_i)
+        final_sigma_i = final_sigma_i % N
+        return final_sigma_i
+
+    def final_proof(self, public_keys, H_is, A_is, sigmas, threshold, N, nr_clients):
+        final_proof = {}
+        for i in range(1, nr_clients + 1):
+            final_proof[i] = self.__final_proof_i(public_keys[i], H_is[i], sigmas[i], A_is[i], N, threshold)
+
+        final_p = 1;
+        for i in range(1, nr_clients + 1):
+            # final_p = final_p * (final_proof[i].powermod(public_keys[i],N))
+            tmp = int(final_proof[i])
+            tmp = pow(tmp, public_keys[i], N) #tmp.powermod(public_keys[i], N)
+            # tmp=(tmp^public_keys[i])
+            final_p = (final_p * tmp) % N
+        # final_p = final_p.mod(N)
+        #final_p = self(final_p)
+        return final_p
+
+    def verify(self, nr_clients, H_is, final_p, finaleval, g):
+        prod = 1
+        for i in range(1, nr_clients + 1):
+            prod = prod * H_is[i]
+        H_y = int(g) ** int(finaleval)
+        prod = prod
+        final_p = final_p 
+        print("prod = {} == {}  ^  H_y = {} == {}".format(prod, final_p, H_y, prod))
+        if (H_y == prod) and (prod == final_p):
+            print("yeahhh")
+            return 1
+        else:
+            return 0
 

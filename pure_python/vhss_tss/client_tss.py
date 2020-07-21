@@ -15,3 +15,6 @@ class ClientTSS(Client):
       self.A = A_i
       self.H_i = H_i
       return shares, shared_key_i, A_i, H_i
+
+    def get_id(self):
+        return self.i
