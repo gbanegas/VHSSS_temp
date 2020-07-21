@@ -1,0 +1,53 @@
+[[package]]
+category = "main"
+description = "Python library for arbitrary-precision floating-point arithmetic"
+name = "mpmath"
+optional = false
+python-versions = "*"
+version = "1.1.0"
+
+[[package]]
+category = "main"
+description = ""
+name = "sage"
+optional = false
+python-versions = "*"
+version = "0.0.0"
+
+[[package]]
+category = "main"
+description = "Computer algebra system (CAS) in Python"
+name = "sympy"
+optional = false
+python-versions = ">=3.5"
+version = "1.6.1"
+
+[package.dependencies]
+mpmath = ">=0.19"
+
+[[package]]
+category = "main"
+description = "Generally useful tools. A python utility belt."
+name = "utilitybelt"
+optional = false
+python-versions = "*"
+version = "0.2.6"
+
+[metadata]
+content-hash = "0a400213d6b4f247e33c6d62c18ab8cd1a474c0eb0f5d498eb999a15ef40d84b"
+python-versions = "^3.8"
+
+[metadata.files]
+mpmath = [
+    {file = "mpmath-1.1.0.tar.gz", hash = "sha256:fc17abe05fbab3382b61a123c398508183406fa132e0223874578e20946499f6"},
+]
+sage = [
+    {file = "sage-0.0.0.tar.gz", hash = "sha256:2719c4ebf49b7ab242d90bb511aa47d4e31fdcd715518796654e81ddfca946fd"},
+]
+sympy = [
+    {file = "sympy-1.6.1-py3-none-any.whl", hash = "sha256:7f50d922bf055560429777447ac827620fd86d39d1de4ea057422e7552c65f3b"},
+    {file = "sympy-1.6.1.tar.gz", hash = "sha256:7386dba4f7e162e90766b5ea7cab5938c2fe3c620b310518c8ff504b283cb15b"},
+]
+utilitybelt = [
+    {file = "utilitybelt-0.2.6.tar.gz", hash = "sha256:dafdb6a2dbb32e71d67a9cd35afd7c2e4993ec094e7ddb547df4cf46788770a4"},
+]
