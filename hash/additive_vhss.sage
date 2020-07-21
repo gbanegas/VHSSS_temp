@@ -86,6 +86,7 @@ class VHSSAdditive():
 
         hash_y = FIELD(g^((y)))
         hash_y_mod = FIELD(g^y_mod)
+        print("hash_y_mod: {}".format(hash_y))
 
         print("hash_y: {}".format(hash_y))
         if ((sigma==FIELD(hash_y)) and (FIELD(prod)==hash_y_mod)):#Georgia doesn't agree with me but it is same comparison
