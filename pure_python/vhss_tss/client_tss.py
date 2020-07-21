@@ -6,6 +6,7 @@ class ClientTSS(Client):
     def __init__(self, id_client, secret_input, t, g, r_i, d_i, public_key, tss):
         Client.__init__(self, id_client, secret_input, t, g, r_i)
         self.d_i = d_i
+        print("self.d_i: {}".format(self.d_i))
         self.public_key = public_key
         self.vhss = tss
 
