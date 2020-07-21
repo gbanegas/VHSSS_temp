@@ -11,8 +11,7 @@ class VHSSAdditive(object):
         self.modQ = modQ
         pass
 
-    def gen_secret_share_additive_with_hash_functions(self, i, x_i, t, nr_servers, R_i,
-                                                      g):  # initiated as none will be none unless otherwise specified
+    def gen_secret_share_additive_with_hash_functions(self, i, x_i, t, nr_servers, R_i, g):  # initiated as none will be none unless otherwise specified
         """
         i: index of the client
         x_i: secret input of the client i

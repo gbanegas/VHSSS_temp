@@ -1,5 +1,7 @@
 from sympy.ntheory import factorint
+import sympy
 import random
+
 
 def totient(n):
     totient = n
@@ -7,10 +9,45 @@ def totient(n):
         totient -= totient // factor
     return totient
 
+
 def random_element(modQ):
     random_e = random.randint(1, modQ.p)
     return random_e
 
+
+def generate_safe_primes(security):
+    lower_bound = 2 ** (security - 1)
+    upper_bound = 2 ** security
+    p = sympy.randprime(lower_bound, upper_bound)
+    q = sympy.randprime(lower_bound, upper_bound)
+
+    while True:
+        if sympy.isprime(2 * p + 1) and sympy.isprime(2 * q + 1) and (q != p):
+            return p, q
+        p = sympy.randprime(lower_bound, upper_bound)
+        q = sympy.randprime(lower_bound, upper_bound)
+
+
+def generate_random_primes(k_security, N):
+    print("starting generate random_primes")
+    lower_bound = 2 ** (k_security - 1)
+    upper_bound = 2 ** k_security
+    p = sympy.randprime(lower_bound, upper_bound)
+    q = sympy.randprime(lower_bound, upper_bound)
+    n_h = p * q
+    e = (p - 1) * (q - 1)
+    gcd_r = sympy.gcd(N, e)
+    while (p == q) or (gcd_r != 1) or (not sympy.isprime(2 * p + 1)) or (not sympy.isprime(2 * q + 1)):
+        while not sympy.isprime(2 * p + 1):
+            p = sympy.randprime(lower_bound, upper_bound)
+        while not sympy.isprime(2 * q + 1):
+            q = sympy.randprime(lower_bound, upper_bound)
+        n_h = p * q
+        e = (p - 1) * (q - 1)
+        gcd_r = sympy.gcd(N, e)
+        if sympy.isprime((p + 1) / 2) and sympy.isprime((q + 1) / 2) and (p != q) and (gcd_r == 1):
+            return p, q
+    return p, q
 
 
 class Base:
@@ -25,16 +62,19 @@ class Base:
     UNDERLINE = '\033[4m'
     # End colored text
     END = '\033[0m'
-    NC ='\x1b[0m' # No Color
+    NC = '\x1b[0m'  # No Color
+
 
 class ANSI_Compatible:
     END = '\x1b[0m'
+
     # If Foreground is False that means color effect on Background
-    def Color(ColorNo, Foreground=True): # 0 - 255
-        FB_G = 38 # Effect on foreground
+    def Color(ColorNo, Foreground=True):  # 0 - 255
+        FB_G = 38  # Effect on foreground
         if Foreground != True:
-            FB_G = 48 # Effect on background
+            FB_G = 48  # Effect on background
         return '\x1b[' + str(FB_G) + ';5;' + str(ColorNo) + 'm'
+
 
 class Formatting:
     Bold = "\x1b[1m"
@@ -54,14 +94,17 @@ class Formatting:
     Reset_Reverse = "\x1b[27m"
     Reset_Hidden = "\x1b[28m"
 
-class GColor: # Gnome supported
+
+class GColor:  # Gnome supported
     END = "\x1b[0m"
+
     # If Foreground is False that means color effect on Background
-    def RGB(R, G, B, Foreground=True): # R: 0-255  ,  G: 0-255  ,  B: 0-255
-        FB_G = 38 # Effect on foreground
+    def RGB(R, G, B, Foreground=True):  # R: 0-255  ,  G: 0-255  ,  B: 0-255
+        FB_G = 38  # Effect on foreground
         if Foreground != True:
-            FB_G = 48 # Effect on background
+            FB_G = 48  # Effect on background
         return "\x1b[" + str(FB_G) + ";2;" + str(R) + ";" + str(G) + ";" + str(B) + "m"
+
 
 class Color:
     # Foreground
