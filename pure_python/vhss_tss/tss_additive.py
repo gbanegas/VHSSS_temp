@@ -105,6 +105,7 @@ class VHSS_TSS(object):
         vec_d[0] = d_i
 
         omega = np.matmul(A_i_tmp, vec_d)
+        print("Omega: {}".format(omega))
         # this gives us a vector omega=(shared_key_1,...,shared_key_m)
         # np.matmult is to do matrix multiplication
         # print("omega: {}".format(omega))
@@ -114,10 +115,10 @@ class VHSS_TSS(object):
             shared_key_i[j] = omega[j - 1]
         # now shared_key is a list of the shares of the d_i that will be given to the m servers
 
-        exponent = x_i[0] + int(R_i) % 3911
+        exponent = x_i[0] + int(R_i) % (3910)
         H_i = g ** exponent  # this is the equivalent of \tau
-        print("H_i : {}".format(H_i))
-
+        #print("H_i : {}".format(H_i))
+        #print("A_i: {}".format(A_i_tmp))
         return shares, shared_key_i, A_i_tmp, H_i
 
     def partial_eval(self, j, shares_from_client, nr_clients):
@@ -129,38 +130,29 @@ class VHSS_TSS(object):
 
     def __partial_proof_i(self, shared_key_i, H_i, A_i, N, threshold,
                           public_key_i):  # shared_key_i is the list of the m shares of the secret key of each client i
+        print("--- partial proof ----")
+        #print("A_i = {}".format(A_i))
         A_iS = A_i[0:threshold, 0:threshold]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
-        print("Ais: {}".format(A_iS))
+        #print("Ais: {}".format(A_iS))
         C_iS_adjugate = adjugate(A_iS, threshold, threshold)
-        print("C_iS: {}".format(C_iS_adjugate))
+       
+        #print("C_iS: {}".format(C_iS_adjugate))
+       
         sigma_i = {}
         for j in range(1, threshold + 1):
-            exponent = int(2 * C_iS_adjugate[j - 1][0] * shared_key_i[j])
-            tmp = pow(H_i, exponent, N)
-            sigma_i[j] = tmp % N
-
-        sigma_bar = 1
-        for sigma in sigma_i.values():
-            sigma_bar = sigma_bar * sigma
-        delta_A_iS = int(det(A_iS))  # A_iS.determinant()
-        tmp = 2 * delta_A_iS
-
-        print("sigma_bar: {} - delta_A_iS: {}".format(sigma_bar, delta_A_iS))
-        lala, alpha, beta = extendedEuclideanAlgorithm(int(tmp), int(public_key_i))  # xgcd(tmp, public_key_i)
-        result_tmp = pow(sigma_bar, alpha, N)  # sigma_bar.powermod(alpha, N)
-        print("result_tmp 1 : {}".format(result_tmp))
-        result_tmp = result_tmp * (pow(H_i, beta, N))  # Integer(H_i).powermod(beta, N)
-        print("result_tmp 2 : {}".format(result_tmp))
-        result_tmp = result_tmp % N
-        print("result_tmp 3 : {}".format(result_tmp))
-        print("result_tmp : {} - {}".format(result_tmp, sigma_i))
-
-        ######### this section is for testing
+            #print("C_{}0 = {}".format((j-1), C_iS_adjugate[0][j-1]))
+            #print("shared_key_i = {}".format(shared_key_i[j]))
+            exponent = int(2 * C_iS_adjugate[0][j-1] * shared_key_i[j])
+            #print("exponent: {}".format(exponent))
+            sigma_i[j] = pow(H_i, exponent, N)
+            #print("tmp: {}".format(tmp))
+            #print("sigma_i[{}]: {}".format(j, sigma_i[j]))
         return sigma_i
 
     def partial_proof(self, omegas, H_is, A_is, N, threshold, nr_clients, public_keys):
-        for i in range(1, nr_clients + 1):
-            self.partialproof[i] = self.__partial_proof_i(omegas[i], H_is[i], A_is[i], N, threshold, public_keys[i])
+        for i in range(0, nr_clients ):
+            self.partialproof[i+1] = self.__partial_proof_i(omegas[i+1], H_is[i+1], A_is[i+1], N, threshold, public_keys[i+1])
+        print("partial Proof: {}".format(self.partialproof))
         return self.partialproof
 
     def final_eval(self, nr_servers):
@@ -170,27 +162,25 @@ class VHSS_TSS(object):
         return finaleval
 
     def __final_proof_i(self, public_key_i, H_i, sigma_i, A_i, N, threshold):
+        print("Starting __final_proof__")
         bar_sigma_i = 1
         for j in range(1, threshold + 1):
-            bar_sigma_i = bar_sigma_i * sigma_i[j]
+            print("partial Proof_{} : {}".format(j, self.partialproof[j]))
+            bar_sigma_i = bar_sigma_i * self.partialproof[i][j]
         bar_sigma_i = bar_sigma_i % N
-        A_iS = A_i[0:threshold, 0:threshold]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
+        A_iS = A_i[0:threshold, 0:threshold] 
         delta_A_iS = int(det(A_iS))
 
         tmp = 2 * delta_A_iS
-        #print("tmp = {} - public  = {}".format(tmp, public_key_i))
-        alpha, beta, lala = extendedEuclideanAlgorithm(int(tmp), int(public_key_i))
+        alpha, beta, lala = extendedEuclideanAlgorithm(tmp, public_key_i)
 
         test = tmp * alpha + beta * public_key_i
         print("test: {} - lala: {} -  alpha : {} -  beta: {}".format(test, lala, alpha, beta))
 
-        tmp_1 = pow(bar_sigma_i, alpha, N)  # bar_sigma_i.powermod(alpha, N)
-
-        tmp_2 = pow(H_i, beta, N)  # Integer(H_i).powermod(beta, N)
+        tmp_1 = pow(bar_sigma_i, alpha, N)  
+        tmp_2 = pow(H_i, beta, N)
 
         final_sigma_i = (tmp_1) * (tmp_2)
-
-        # tmp = Integer(final_sigma_i)
         final_sigma_i = final_sigma_i % N
         return final_sigma_i
 
@@ -201,25 +191,23 @@ class VHSS_TSS(object):
 
         final_p = 1;
         for i in range(1, nr_clients + 1):
-            # final_p = final_p * (final_proof[i].powermod(public_keys[i],N))
             tmp = int(final_proof[i])
-            tmp = pow(tmp, public_keys[i], N)  # tmp.powermod(public_keys[i], N)
-            # tmp=(tmp^public_keys[i])
+            tmp = pow(tmp, public_keys[i], N) 
             final_p = (final_p * tmp) % N
-        # final_p = final_p.mod(N)
-        # final_p = self(final_p)
+       
         return final_p
 
-    def verify(self, nr_clients, H_is, final_p, finaleval, g):
+    def verify(self, nr_clients, H_is, final_p, finaleval, g, N):
         prod = 1
         for i in range(1, nr_clients + 1):
             prod = prod * H_is[i]
-        H_y = int(g) ** int(finaleval)
-        prod = prod
-        final_p = final_p
+        H_y = (int(g) ** int(finaleval)) % 3911
+        prod = prod % 3911
+        final_p = final_p % 3911
+        print("y = {}".format(finaleval))
         print("prod = {} == {}  ^  H_y = {} == {}".format(prod, final_p, H_y, prod))
         if (H_y == prod) and (prod == final_p):
             print("yeahhh")
-            return 1
+            return 1, finaleval
         else:
-            return 0
+            return 0, finaleval

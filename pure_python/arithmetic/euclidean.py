@@ -17,6 +17,8 @@ def gcd(a, b):
 # Works for any number type with a divmod and a valuation abs()
 # whose minimum value is zero
 def extendedEuclideanAlgorithm(a, b):
+   a = int(a)
+   b = int(b)
    if abs(b) > abs(a):
       (x,y,d) = extendedEuclideanAlgorithm(b, a)
       return (y,x,d)
