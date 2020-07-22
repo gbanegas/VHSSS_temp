@@ -110,30 +110,40 @@ class TSS(object):
         return final_eval
 
     def partial_proof(self, omegas, hash_Hs, matrix_As, N):
+        print(" - partial_proof - ")
         for i in range(1, Params.NR_CLIENTS+1):
             self.partial_proof_value_sigma[i] = TSS.__partial_proof__(omegas[i], hash_Hs[i], matrix_As[i], N)
+        print("self.partial_proof_value_sigma: {}".format(self.partial_proof_value_sigma))
 
     @staticmethod
     def __partial_proof__(omega, hash_H, matrix_A, N):
-        print("Matrix_A:\n {}".format(matrix_A))
         matrix_a_s = matrix_A[0:Params.THRESHOLD, 0:Params.THRESHOLD]
         matrix_c_s_adjugate = adjugate(matrix_a_s, Params.THRESHOLD, Params.THRESHOLD)
 
         sigma_i = {}
         for j in range(1, Params.THRESHOLD + 1):
-            tmp_val = matrix_c_s_adjugate[0][j - 1] % 3911
+            tmp_val = matrix_c_s_adjugate[0][j - 1]
+            print("tmp_val: {}".format(tmp_val))
+            print("omega[j]: {}".format(omega[j]))
             exponent = int(2 * tmp_val * omega[j])
+            print("exponent: {}".format(exponent))
             sigma_i[j] = pow(hash_H, exponent, N)
+        
         return sigma_i
 
     def final_proof(self, public_keys, hash_Hs, matrix_As, N):
+        print("public_keys: {}".format(public_keys))
         sigma_i = {}
         for i in range(1, Params.NR_CLIENTS+1):
             sigma_i[i] = TSS.__final_proof__(public_keys[i], hash_Hs[i], matrix_As[i], self.partial_proof_value_sigma[i], N)
 
+
         final_proof_value = 1
         for i in range(1, Params.NR_CLIENTS+1):
+            print("public_keys[i]: {}".format(public_keys[i]))
+            print("sigma_i[i]: {}".format(sigma_i[i]))
             final_proof_value = final_proof_value * pow(sigma_i[i], public_keys[i], N)
+        print("final_proof_value: {}".format(final_proof_value))
         return final_proof_value
 
     @staticmethod
@@ -147,6 +157,9 @@ class TSS(object):
         detal_a_is = int(det(matrix_a_is))
         tmp = 2 * detal_a_is
         alpha, beta, _ = extended_euclidean_algorithm(tmp, public_key)
+        print("alpha: {}".format(alpha))
+        print("beta: {}".format(beta))
+        print("rest: {}".format(_))
 
         sigma_tmp_1 = pow(sigma_bar, alpha, N)
         sigma_tmp_2 = pow(hash_h, beta, N)
@@ -161,7 +174,7 @@ class TSS(object):
             prod = prod * hash_Hs[i]
 
         prod = prod % 3911
-        sigma = sigma % 3911
+        sigma = sigma 
         H_y = (int(Params.G) ** int(y)) % 3911
 
         print("y = {}".format(y))

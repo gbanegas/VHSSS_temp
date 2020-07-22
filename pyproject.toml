@@ -9,6 +9,7 @@ python = "^3.8"
 utilitybelt = "^0.2.6"
 sage = "^0.0.0"
 sympy = "^1.6.1"
+pfp = "^0.4.11"
 
 [tool.poetry.dev-dependencies]
 

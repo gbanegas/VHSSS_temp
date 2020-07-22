@@ -1,5 +1,3 @@
-from pfp.fields import Int
-
 from arithmetic.modp import *
 from arithmetic.utils import *
 from vhss_ts.params import *
@@ -13,9 +11,10 @@ def main_ts():
     servers = []
     #p, q = generate_safe_primes(Params.SECURITY)
     modQ = IntegersModP(Params.FINITE_FIELD)
-    p = 16779169001330563571
-    q = 11439834306398852411
+    p = 11
+    q = 13
     N = p * q
+    phi_N = (p-1)*(q-1)
     print("p: {} - q: {}".format(p, q))
     print("N: {}".format(N))
     tss = TSS(modQ)
