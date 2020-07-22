@@ -2,6 +2,8 @@
 # a general Euclidean algorithm for any number type with
 # a divmod and a valuation abs() whose minimum value is zero
 def gcd(a, b):
+   a = int(a)
+   b = int(b)
    if abs(a) < abs(b):
       return gcd(b, a)
 
@@ -16,11 +18,11 @@ def gcd(a, b):
 # input (a,b) and output three numbers x,y,d such that ax + by = d = gcd(a,b).
 # Works for any number type with a divmod and a valuation abs()
 # whose minimum value is zero
-def extendedEuclideanAlgorithm(a, b):
+def extended_euclidean_algorithm(a, b):
    a = int(a)
    b = int(b)
    if abs(b) > abs(a):
-      (x,y,d) = extendedEuclideanAlgorithm(b, a)
+      (x,y,d) = extended_euclidean_algorithm(b, a)
       return (y,x,d)
 
    if abs(b) == 0:
