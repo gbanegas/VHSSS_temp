@@ -165,8 +165,8 @@ class VHSS_TSS(object):
         print("Starting __final_proof__")
         bar_sigma_i = 1
         for j in range(1, threshold + 1):
-            print("partial Proof_{} : {}".format(j, self.partialproof[j]))
-            bar_sigma_i = bar_sigma_i * self.partialproof[i][j]
+            print("partial proof_i_{} : {}".format(j, sigma_i[j]))
+            bar_sigma_i = bar_sigma_i * sigma_i[j]
         bar_sigma_i = bar_sigma_i % N
         A_iS = A_i[0:threshold, 0:threshold] 
         delta_A_iS = int(det(A_iS))
@@ -177,7 +177,7 @@ class VHSS_TSS(object):
         test = tmp * alpha + beta * public_key_i
         print("test: {} - lala: {} -  alpha : {} -  beta: {}".format(test, lala, alpha, beta))
 
-        tmp_1 = pow(bar_sigma_i, alpha, N)  
+        tmp_1 = pow(bar_sigma_i, alpha, N)  #a^b mod N
         tmp_2 = pow(H_i, beta, N)
 
         final_sigma_i = (tmp_1) * (tmp_2)
@@ -187,7 +187,7 @@ class VHSS_TSS(object):
     def final_proof(self, public_keys, H_is, A_is, sigmas, threshold, N, nr_clients):
         final_proof = {}
         for i in range(1, nr_clients + 1):
-            final_proof[i] = self.__final_proof_i(public_keys[i], H_is[i], sigmas[i], A_is[i], N, threshold)
+            final_proof[i] = self.__final_proof_i(public_keys[i], H_is[i], self.partialproof[i], A_is[i], N, threshold)
 
         final_p = 1;
         for i in range(1, nr_clients + 1):
