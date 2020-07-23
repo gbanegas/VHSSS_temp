@@ -12,10 +12,10 @@ def main_ts():
     servers = []
 
     #p, q = generate_safe_primes(Params.SECURITY)
-    Params.set_finite_field(151)
+    #Params.set_finite_field(151)
     modQ = IntegersModP(Params.FINITE_FIELD)
-    p = 151
-    q = 11
+    p = 757716457
+    q = 2932426463
     N = p * q
     phi_N = (p-1)*(q-1)
     print("p: {} - q: {}".format(p, q))
@@ -30,7 +30,7 @@ def main_ts():
             print("public: {}".format(public_key))
             print("private_key: {}".format(private_key))
             R_i = 2
-            c = ClientTS(i, [1], private_key, public_key, R_i, tss)
+            c = ClientTS(i, [10], private_key, public_key, R_i, tss)
             R_is = int(R_is) + int(R_i)
             clients.append(c)
             public_keys[i] = public_key
@@ -70,9 +70,9 @@ def main_ts():
     print("matrix_As: {}".format(matrix_As))
     print("hash_Hs: {}".format(hash_Hs))
 
-    tss.partial_proof(omegas,hash_Hs, matrix_As, N)
+    tss.partial_proof(omegas,hash_Hs, matrix_As, N, phi_N)
 
-    sigma = tss.final_proof(public_keys, hash_Hs, matrix_As, N)
+    sigma = tss.final_proof(public_keys, hash_Hs, matrix_As, N, phi_N)
 
     result_verify = TSS.verify(hash_Hs, sigma, y)
 
