@@ -7,7 +7,7 @@ def main():
     #main_hash()
     
     #main_lhss()
-    main_ts()
+    #main_ts()
 
 
 if __name__ == "__main__":

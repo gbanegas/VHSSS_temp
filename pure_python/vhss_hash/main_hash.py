@@ -23,7 +23,7 @@ def main_hash():
     R_is = 0
     for i in range(1, nr_clients + 1):  # Generation clients
         if (i != nr_clients):
-            R_i = random_element(modQ)
+            R_i = 0#random_element(modQ)
             client = ClientHash(i, [3], t, g, R_i, vahss)
             print("R_i: {}".format(R_i))
             R_is = int(R_is) + int(R_i)

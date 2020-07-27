@@ -10,8 +10,8 @@ from vhss_lhss.server_lhss import *
 
 def main_lhss():
     print("------ starting -------")
-    q = 3911
-    modQ = IntegersModP(q)
+    modq = 3911
+    modQ = IntegersModP(modq)
     print(modQ(3912) + modQ(3912111))
     t = 3
     nr_clients = 3
@@ -19,7 +19,7 @@ def main_lhss():
     nr_servers = t * nr_clients + 1
     clients = []
     servers = []
-    security = 64
+    security = 16
     lhss = LHSSAdditive(modQ)
     p, q = generate_safe_primes(security)
     N = p * q
@@ -77,13 +77,14 @@ def main_lhss():
 
     final_eval = lhss.final_eval(nr_servers)
 
-    partial_proof_1 = lhss.partial_proof(secret_key, verification_key, 3, 2 + 1, 1, q)
-    partial_proof_2 = lhss.partial_proof(secret_key, verification_key, 3, 3 + 1, 2, q)
-    partial_proof_3 = lhss.partial_proof(secret_key, verification_key, 3, 4 + 1, 3, q)
+    partial_proof_1 = lhss.partial_proof(secret_key, verification_key, 3, 2 + 1, 1, modq)
+    #partial_proof(self, s               ecret_key, verification_key, fid, x_i_R, i, q)
+    partial_proof_2 = lhss.partial_proof(secret_key, verification_key, 3, 3 + 1, 2, modq)
+    partial_proof_3 = lhss.partial_proof(secret_key, verification_key, 3, 4 + 1, 3, modq)
     # R_i = ceil(3/(q-1))*(q-1)-3
     phi = (secret_key[0] - 1) * (secret_key[1] - 1)
     R_i = math.ceil(3 / (phi)) * (phi) - 3
-    partial_proof_4 = lhss.partial_proof(secret_key, verification_key, 1, 5 + R_i, 4, q)
+    partial_proof_4 = lhss.partial_proof(secret_key, verification_key, 1, 5 + R_i, 4, modq)
 
     print("Partial proof c 1: {}".format(partial_proof_1))
     print("Partial proof c 2: {}".format(partial_proof_2))
@@ -91,8 +92,8 @@ def main_lhss():
     print("Partial proof c 4: {}".format(partial_proof_4))
 
     list_proofs = [partial_proof_1, partial_proof_2, partial_proof_3, partial_proof_4]
-    final_proof_test = lhss.final_proof(verification_key, list_proofs, nr_clients, q)
+    final_proof_test = lhss.final_proof(verification_key, list_proofs, nr_clients, modq)
 
     print("Final Proof: {}".format(final_proof_test))
 
-    lhss.verify(verification_key, final_proof_test, final_eval, q)
+    lhss.verify(verification_key, final_proof_test, final_eval, modq)

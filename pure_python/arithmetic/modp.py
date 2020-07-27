@@ -55,7 +55,7 @@ def IntegersModP(p: object) -> object:
          return (IntegerModP(q), IntegerModP(r))
 
       def inverse(self):
-         x,y,d = extendedEuclideanAlgorithm(self.n, self.p)
+         x,y,d = extended_euclidean_algorithm(self.n, self.p)
 
          if d != 1:
             raise Exception("Error: p is not prime in %s!" % (self.__name__))

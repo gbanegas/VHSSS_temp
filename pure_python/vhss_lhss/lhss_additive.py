@@ -6,7 +6,7 @@ from shamir_secre_sharing.wrapper import *
 
 def H(element, prime):
     L = IntegersModP(prime)
-    g = L(3)
+    g = L(2)
     temp = g**element
     is_nr_prime = sympy.isprime(int(temp))
     while not is_nr_prime or temp == 2:
@@ -74,23 +74,27 @@ class LHSSAdditive(object):
         """
         e = H(fid, q)  # q is the prime that define the field
         e_N = int(e) * int(verification_key[0])
-        s_i = random.getrandbits(2048) % e_N  # s_i need to be in Z_eN (not referred in the paper)
-        n_hat = int(verification_key[1])
-        g = int(verification_key[2])
-        g1 = int(verification_key[3])
-        s_i_pow = pow(g, s_i, n_hat)  #g.powermod(s_i, n_hat)
 
-        g1_pow = pow(g1, x_i_R, n_hat)# g1.powermod(x_i_R, n_hat)
-        hi = int(verification_key[4][i - 1])
+        n_hat = verification_key[1]
+        g = verification_key[2]
+        g1 = verification_key[3]
+
+        s_i = random.getrandbits(2048) % e_N # s_i need to be in Z_eN (not referred in the paper)
+        s_i_pow = pow(g, s_i, n_hat)
+
+        g1_pow = pow(g1, x_i_R, n_hat)
+
+        hi = verification_key[4][i - 1]
         phi = (secret_key[0] - 1) * (secret_key[1] - 1)
 
         right_hand_side = (s_i_pow * g1_pow) % n_hat
-        right_hand_side = (hi * right_hand_side) % n_hat
+        right_hand_side = (hi * right_hand_side) %n_hat
 
-        inverse_e_N = mod_inverse(int(e_N), int(phi))  # a^-1 mod phi
-        x = pow(right_hand_side, inverse_e_N, n_hat)
-        #x = right_hand_side.powermod(inverse_e_N, n_hat)
-        # print("n_hat = {} - x = {} - e_N = {}  - right_hand_side = {} - phi =  {} - g = {} - hi = {} - g1 = {} - si = {} - x_i_r = {} - g1_pow = {}".format(n_hat, x, e_N, right_hand_side, phi,g,hi,g1, s_i, x_i_R, g1_pow))
+        inverse_e_N = mod_inverse(e_N, phi)#inverse_mod(e_N, phi)  # a^-1 mod phi
+        x = pow(right_hand_side, inverse_e_N, n_hat) #right_hand_side.powermod(inverse_e_N, n_hat)
+        print(
+            "n_hat = {} - x = {} - e_N = {}  - right_hand_side = {} - phi =  {} - g = {} - hi = {} - g1 = {} - si = {} - x_i_r = {} - g1_pow = {}".format(
+                n_hat, x, e_N, right_hand_side, phi, g, hi, g1, s_i, x_i_R, g1_pow))
         sigma_temp = (e, s_i, fid, x)
         return sigma_temp  # this is sigma_i of the pape
 
@@ -102,7 +106,6 @@ class LHSSAdditive(object):
         return finaleval
 
     def final_proof(self, verification_key, sigmas, nr_clients, q):
-        f_hat = [1] * nr_clients
         fid = sigmas[0][2]
         e = H(fid, q)  # q is the prime that define the field
 
@@ -132,7 +135,6 @@ class LHSSAdditive(object):
         # print("tmp: {} - s_prime: {} ".format(tmp, s_prime))
 
         low_part = R(pow(g, int(s_prime), n_hat))# R(g.powermod(s_prime, n_hat))
-        print("LOWER PART IS : {}".format(low_part))
         # low_part=1
 
         x_tilda = int(prod_partial_proofs / low_part) % n_hat
@@ -166,9 +168,9 @@ class LHSSAdditive(object):
 
         left_part = pow(x_tilda, e_N, n_hat) #x_tilda.powermod(e_N, n_hat)
         # x_tilda^(e_N)
-        #    print("x_tilda: {} - left_part: {}".format(x_tilda,left_part) )
+        #print("x_tilda: {} - left_part: {}".format(x_tilda,left_part) )
 
-        # print("right_part: {}  - left_part: {}".format(right_part, left_part))
+        print("right_part: {}  - left_part: {}".format(right_part, left_part))
         if left_part == right_part:
             print("Yey!")
             return y_m
