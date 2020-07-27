@@ -6,7 +6,7 @@ from vhss_ts.main_ts import *
 def main():
     #main_hash()
     
-    #main_lhss()
+    main_lhss()
     #main_ts()
 
 
