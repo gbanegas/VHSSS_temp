@@ -1,4 +1,4 @@
-def generate_safe_primes(k_security):#here you generate q' such that 2q'+1 is a safe prime
+def generate_safe_primes(k_security):
     p = random_prime(2^k_security-1, false, 2^(k_security-1))#(upperbound of the lenght of the prime selected,proof of primality,lower bound of length of the prime selected)
     q = random_prime(2^k_security-1, false, 2^(k_security-1))
     while True:

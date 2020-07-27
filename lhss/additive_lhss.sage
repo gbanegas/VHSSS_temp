@@ -53,7 +53,7 @@ class LHSVHSSAdditive():
         #print ("partial eval is:",self.partialeval[j])
         return self.partialeval[j] #this is y_j of the paper
 
-
+    #verification_key = (N,self.n_hat,g,g_1,h)
     def partial_proof(self, secret_key, verification_key, fid, x_i_R, i):
         """
         i: index of the client
@@ -61,13 +61,18 @@ class LHSVHSSAdditive():
         x_i_R: secret input of the client i + randomness from the client i
         """
         e = H(fid, q)#q is the prime that define the field
+        print("e: {}".format(e));
         e_N = Integer(e)*Integer(verification_key[0])
-        s_i =mod(random.getrandbits(2048), e_N)#s_i need to be in Z_eN (not referred in the paper)
+
         n_hat = Integer(verification_key[1])
         g = Integer(verification_key[2])
         g1 = Integer(verification_key[3])
+
+        s_i =mod(random.getrandbits(2048), e_N)#s_i need to be in Z_eN (not referred in the paper)
         s_i_pow =g.powermod(s_i, n_hat)
+
         g1_pow = g1.powermod(x_i_R, n_hat)
+
         hi = Integer(verification_key[4][i-1])
         phi =(secret_key[0]-1)*(secret_key[1]-1)
 
@@ -76,7 +81,7 @@ class LHSVHSSAdditive():
 
         inverse_e_N = inverse_mod(Integer(e_N), Integer(phi))#a^-1 mod phi
         x = right_hand_side.powermod(inverse_e_N, n_hat)
-        #print("n_hat = {} - x = {} - e_N = {}  - right_hand_side = {} - phi =  {} - g = {} - hi = {} - g1 = {} - si = {} - x_i_r = {} - g1_pow = {}".format(n_hat, x, e_N, right_hand_side, phi,g,hi,g1, s_i, x_i_R, g1_pow))
+        print("n_hat = {} - x = {} - e_N = {}  - right_hand_side = {} - phi =  {} - g = {} - hi = {} - g1 = {} - si = {} - x_i_r = {} - g1_pow = {}".format(n_hat, x, e_N, right_hand_side, phi,g,hi,g1, s_i, x_i_R, g1_pow))
         sigma_temp=(e, s_i, fid, x)
         return sigma_temp #this is sigma_i of the pape
 
@@ -126,8 +131,11 @@ class LHSVHSSAdditive():
 
         low_part = R(g.powermod(s_prime, n_hat))
         #low_part=1
-        print("LOWER PART IS : {}".format(low_part))
+        inv_lowpart = 1/low_part
         x_tilda = (prod_partial_proofs/low_part).mod(n_hat)
+
+        print("e_n = {} - x_tilda = {} - low_part = {} - inv_low = {} - sum_s_i = {} - s = {} - prod_partial_proof = {}".format(e_N, x_tilda, low_part, inv_lowpart, sum_s_i, s, prod_partial_proofs))
+
         finalproof = (e, s, fid, x_tilda) #sigma_temp[2]=fid
 
         return finalproof #this is sigma in the paper
@@ -142,7 +150,7 @@ class LHSVHSSAdditive():
         g1 = Integer(verification_key[3])
         s =Integer(finalproof[1])
         x_tilda= Integer(finalproof[3])
-        y_m = Integer(final_eval).mod(3911)
+        y_m = Integer(final_eval).mod(q)
         prod_hj = 1
 
         for j in range(len(verification_key[4])):
@@ -152,7 +160,7 @@ class LHSVHSSAdditive():
 
         g_power_s = g.powermod(s, n_hat)
         g1_power_y = g1.powermod(y_m, n_hat);
-        
+
 
         right_part = (g_power_s*prod_hj*g1_power_y).mod(n_hat)
 
@@ -162,7 +170,7 @@ class LHSVHSSAdditive():
         #x_tilda^(e_N)
     #    print("x_tilda: {} - left_part: {}".format(x_tilda,left_part) )
 
-        #print("right_part: {}  - left_part: {}".format(right_part, left_part))
+        print("right_part: {}  - left_part: {}".format(right_part, left_part))
         if left_part == right_part:
             print("Yey!")
             return y_m

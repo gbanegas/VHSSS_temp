@@ -9,10 +9,10 @@ FIELD = GF(q)
 
 lvhss = LHSVHSSAdditive()
 
-security = 64
-p,q = generate_safe_primes(security)
-N = p*q
-print("p: {} - q: {}".format(p,q))
+security = 16
+p,q_p = generate_safe_primes(security)
+N = p*q_p
+print("p: {} - q: {}".format(p,q_p))
 print("N: {}".format(N))
 
 nr_clients = 4
