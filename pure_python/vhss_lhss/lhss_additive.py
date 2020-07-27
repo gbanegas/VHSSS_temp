@@ -132,6 +132,7 @@ class LHSSAdditive(object):
         # print("tmp: {} - s_prime: {} ".format(tmp, s_prime))
 
         low_part = R(pow(g, int(s_prime), n_hat))# R(g.powermod(s_prime, n_hat))
+        print("LOWER PART IS : {}".format(low_part))
         # low_part=1
 
         x_tilda = int(prod_partial_proofs / low_part) % n_hat

@@ -126,6 +126,7 @@ class LHSVHSSAdditive():
 
         low_part = R(g.powermod(s_prime, n_hat))
         #low_part=1
+        print("LOWER PART IS : {}".format(low_part))
         x_tilda = (prod_partial_proofs/low_part).mod(n_hat)
         finalproof = (e, s, fid, x_tilda) #sigma_temp[2]=fid
 
