@@ -3,6 +3,7 @@ from vhss_ts.params import *
 
 import numpy as np
 from sympy import Matrix
+from sympy.matrices import randMatrix
 
 from arithmetic.modp import *
 from arithmetic.utils import *
@@ -11,15 +12,14 @@ from arithmetic.euclidean import *
 from shamir_secre_sharing.shamir_secret import *
 from shamir_secre_sharing.wrapper import *
 from numpy.linalg import matrix_rank
-from numpy.linalg import det
 
 
 def generate_random_matrix(rows, columns, rank):
     # TODO: change 3911 to q
-    m = np.random.randint(low=0, high=3911, size=(rows, columns))
+    m = randMatrix(rows, columns, min=0, max=Params.FINITE_FIELD)
     # print("m: {}".format(m))
-    while matrix_rank(m) != rank:
-        m = np.random.randint(low=0, high=3911, size=(rows, columns))
+    while m.rank() != rank:
+        m = randMatrix(rows, columns, min=0, max=Params.FINITE_FIELD)
     return m
 
 
@@ -70,31 +70,49 @@ class TSS(object):
                                                        self.modQ.p)
 
         matrix_A_i_tmp = generate_random_matrix(Params.NR_SERVERS, Params.THRESHOLD, Params.THRESHOLD)
-        matrix_A_iS = matrix_A_i_tmp[0:Params.THRESHOLD,
-                      0:Params.THRESHOLD]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
-        delta_A_iS = det(matrix_A_iS)  # this is to compute the det of A_iS
-        tmp = 2 * delta_A_iS
-        gcd_pk_i_delta_AiS = gcd(tmp, public_key)
+        matrix_A_iS = matrix_A_i_tmp[0:Params.THRESHOLD,0:Params.THRESHOLD]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
+        m_tmp = Matrix(matrix_A_iS)
+        #det_matrix_a_tmp = matrix_A_i_tmp.det()
+        delta_A_iS = m_tmp.det()  # this is to compute the det of A_iS
 
-        while (gcd_pk_i_delta_AiS != 1):  # we make sure they are coprime before we go on.
+        tmp = 2 * delta_A_iS
+        #tmp2 = 2 * det_matrix_a_tmp
+
+        gcd_pk_i_delta_AiS = gcd(tmp, public_key)
+        #gcd_pk_i_delta_AiS_2 = gcd(tmp2, public_key)
+
+        while (gcd_pk_i_delta_AiS != 1 ):  # we make sure they are coprime before we go on.
             matrix_A_i_tmp = generate_random_matrix(Params.NR_SERVERS, Params.THRESHOLD, Params.THRESHOLD)
-            matrix_A_iS = matrix_A_i_tmp[0:Params.THRESHOLD,
-                          0:Params.THRESHOLD]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
-            delta_A_iS = det(matrix_A_iS)  # this is to compute the det of A_iS
+            matrix_A_iS = matrix_A_i_tmp[0:Params.THRESHOLD, 0:Params.THRESHOLD]  # this is to create the \hat(t)x\hat(t) submatrix of A_i
+            #det_matrix_a_tmp = matrix_A_i_tmp.det()
+            delta_A_iS =  matrix_A_iS.det()  # this is to compute the det of A_iS
+
             tmp = 2 * delta_A_iS
+            #tmp2 = 2 * det_matrix_a_tmp
+
             gcd_pk_i_delta_AiS = gcd(tmp, public_key)
-            # print("gcd : {}".format(gcd_pk_i_delta_AiS))
+            #gcd_pk_i_delta_AiS_2 = gcd(tmp2, public_key)
+            print("gcd : {}".format(gcd_pk_i_delta_AiS))
+            #print("gcd : {}".format(gcd_pk_i_delta_AiS_2))
+
+        print("det {}".format(delta_A_iS))
+        print("2\deltais: {}".format(tmp))
 
         vec_d = generate_random_vector(private_key, Params.THRESHOLD)
         vec_d[0] = private_key
+        print("vec_d: {}".format(vec_d))
+        print("matrix_A_i_tmp: {}".format(matrix_A_i_tmp))
 
         omega = np.matmul(matrix_A_i_tmp, vec_d)
         shared_key_i = {}
         for j in range(1, Params.NR_SERVERS + 1):
             shared_key_i[j] = omega[j - 1]
 
-        exponent = secret_input[0] + int(random_e) % (3910)
-        H_i = Params.G ** exponent  # this is the equivalent of \tau
+        print("shared_key_i: {}".format(shared_key_i))
+
+        exponent = secret_input[0] + int(random_e) % (Params.FINITE_FIELD-1)
+        H_i = pow(Params.G, exponent, Params.FINITE_FIELD) # this is the equivalent of \tau
+        print("H_i: {}".format(H_i))
         return shares, shared_key_i, matrix_A_i_tmp, H_i
 
     def partial_eval(self, j, shares_from_client):
@@ -109,33 +127,37 @@ class TSS(object):
             final_eval = final_eval + self.partial_eval_values[j]
         return final_eval
 
-    def partial_proof(self, omegas, hash_Hs, matrix_As, N):
+    def partial_proof(self, omegas, hash_Hs, matrix_As, N, phi_n):
         print(" - partial_proof - ")
         for i in range(1, Params.NR_CLIENTS+1):
-            self.partial_proof_value_sigma[i] = TSS.__partial_proof__(omegas[i], hash_Hs[i], matrix_As[i], N)
+            self.partial_proof_value_sigma[i] = TSS.__partial_proof__(omegas[i], hash_Hs[i], matrix_As[i], N, phi_n)
         print("self.partial_proof_value_sigma: {}".format(self.partial_proof_value_sigma))
 
     @staticmethod
-    def __partial_proof__(omega, hash_H, matrix_A, N):
+    def __partial_proof__(omega, hash_H, matrix_A, N, phi_n):
         matrix_a_s = matrix_A[0:Params.THRESHOLD, 0:Params.THRESHOLD]
         matrix_c_s_adjugate = adjugate(matrix_a_s, Params.THRESHOLD, Params.THRESHOLD)
+        print(" - matrix_c_s_adjugate: \n {} ".format(matrix_c_s_adjugate))
 
         sigma_i = {}
         for j in range(1, Params.THRESHOLD + 1):
             tmp_val = matrix_c_s_adjugate[0][j - 1]
             print("tmp_val: {}".format(tmp_val))
             print("omega[j]: {}".format(omega[j]))
-            exponent = int(2 * tmp_val * omega[j])
+            exponent = int(2 * tmp_val * omega[j]) % phi_n
             print("exponent: {}".format(exponent))
+            print("hash_H: {}".format(hash_H))
             sigma_i[j] = pow(hash_H, exponent, N)
+            print("sigma_i[j] = pow(hash_H, exponent, N) : {}".format(sigma_i[j]))
         
         return sigma_i
 
-    def final_proof(self, public_keys, hash_Hs, matrix_As, N):
+    def final_proof(self, public_keys, hash_Hs, matrix_As, N, phi_N):
+        print("---- final proof ---")
         print("public_keys: {}".format(public_keys))
         sigma_i = {}
         for i in range(1, Params.NR_CLIENTS+1):
-            sigma_i[i] = TSS.__final_proof__(public_keys[i], hash_Hs[i], matrix_As[i], self.partial_proof_value_sigma[i], N)
+            sigma_i[i] = TSS.__final_proof__(public_keys[i], hash_Hs[i], matrix_As[i], self.partial_proof_value_sigma[i], N, phi_N)
 
 
         final_proof_value = 1
@@ -147,24 +169,36 @@ class TSS(object):
         return final_proof_value
 
     @staticmethod
-    def __final_proof__(public_key, hash_h, matrix_A, sigma, N):
+    def __final_proof__(public_key, hash_h, matrix_A, sigma, N, phi_N):
         sigma_bar = 1
         for j in range(1, Params.THRESHOLD+1):
-            sigma_bar = sigma_bar * sigma[j]
-        sigma_bar = sigma_bar % N
+            sigma_bar = sigma_bar * sigma[j] % N
+        print("sigma_bar: {}".format(sigma_bar))
+        #sigma_bar = sigma_bar
 
         matrix_a_is = matrix_A[0:Params.THRESHOLD, 0:Params.THRESHOLD]
-        detal_a_is = int(det(matrix_a_is))
+        m_tmp = Matrix(matrix_a_is)
+        print(matrix_a_is)
+        detal_a_is = m_tmp.det()
+        print("determinant: {}".format(detal_a_is))
+        print("det: {}".format(m_tmp.det()))
         tmp = 2 * detal_a_is
+        print("2* det: {}".format(tmp))
         alpha, beta, _ = extended_euclidean_algorithm(tmp, public_key)
         print("alpha: {}".format(alpha))
         print("beta: {}".format(beta))
         print("rest: {}".format(_))
+        alpha = alpha % phi_N
+        beta = beta % phi_N
 
         sigma_tmp_1 = pow(sigma_bar, alpha, N)
+        print("sigma_tmp_1: {}".format(sigma_tmp_1))
         sigma_tmp_2 = pow(hash_h, beta, N)
+        print("sigma_tmp_2: {}".format(sigma_tmp_2))
 
         sigma = (sigma_tmp_1 * sigma_tmp_2) % N
+        print("sigma: {}".format(sigma))
+
         return sigma
 
     @staticmethod
@@ -173,9 +207,9 @@ class TSS(object):
         for i in range(1, Params.NR_CLIENTS+1):
             prod = prod * hash_Hs[i]
 
-        prod = prod % 3911
-        sigma = sigma 
-        H_y = (int(Params.G) ** int(y)) % 3911
+        prod = prod % Params.FINITE_FIELD
+        sigma = sigma % Params.FINITE_FIELD
+        H_y = (int(Params.G) ** int(y)) % Params.FINITE_FIELD
 
         print("y = {}".format(y))
         print("prod = {} == {}  ^  H_y = {} == {}".format(prod, sigma, H_y, prod))

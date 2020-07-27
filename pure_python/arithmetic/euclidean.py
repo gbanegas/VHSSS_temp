@@ -14,10 +14,6 @@ def gcd(a, b):
    return a
 
 
-# extendedEuclideanAlgorithm: int, int -> int, int, int
-# input (a,b) and output three numbers x,y,d such that ax + by = d = gcd(a,b).
-# Works for any number type with a divmod and a valuation abs()
-# whose minimum value is zero
 def extended_euclidean_algorithm(a, b):
    a = int(a)
    b = int(b)
